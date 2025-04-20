@@ -1,0 +1,884 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeamFlow Task Detail</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Primary Colors */
+            --primary-blue: #2563EB;
+            --deep-navy: #1E40AF;
+            --light-blue: #DBEAFE;
+            
+            /* Secondary Colors */
+            --success-green: #10B981;
+            --warning-amber: #F59E0B;
+            --error-red: #EF4444;
+            --purple: #8B5CF6;
+            
+            /* Neutral Colors */
+            --dark-gray: #1F2937;
+            --medium-gray: #6B7280;
+            --light-gray: #E5E7EB;
+            --off-white: #F9FAFB;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark-gray);
+            background-color: var(--off-white);
+        }
+        
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            background-color: white;
+            border-right: 1px solid var(--light-gray);
+            padding: 24px 0;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .logo {
+            padding: 0 24px 24px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 32px;
+            margin-right: 12px;
+        }
+        
+        .logo h1 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--deep-navy);
+        }
+        
+        .nav-section {
+            margin-bottom: 24px;
+        }
+        
+        .nav-section h2 {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--medium-gray);
+            padding: 8px 24px;
+            margin-bottom: 4px;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 24px;
+            color: var(--dark-gray);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .nav-item.active {
+            background-color: var(--light-blue);
+            color: var(--primary-blue);
+            border-left: 3px solid var(--primary-blue);
+            padding-left: 21px;
+        }
+        
+        .nav-item:hover:not(.active) {
+            background-color: rgba(219, 234, 254, 0.5);
+        }
+        
+        .nav-item svg {
+            margin-right: 12px;
+            width: 20px;
+            height: 20px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+        
+        .back-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            background-color: white;
+            border: 1px solid var(--light-gray);
+            margin-right: 16px;
+            cursor: pointer;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .button {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .button.primary {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+        }
+        
+        .button.primary:hover {
+            background-color: var(--deep-navy);
+        }
+        
+        .button.secondary {
+            background-color: white;
+            color: var(--dark-gray);
+            border: 1px solid var(--light-gray);
+        }
+        
+        .button.secondary:hover {
+            background-color: var(--off-white);
+        }
+        
+        .button svg {
+            margin-right: 8px;
+        }
+        
+        /* Task Detail */
+        .task-detail {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+        }
+        
+        .task-main {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+        }
+        
+        .task-header {
+            margin-bottom: 24px;
+        }
+        
+        .task-id {
+            font-size: 14px;
+            color: var(--medium-gray);
+            margin-bottom: 8px;
+        }
+        
+        .task-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        
+        .task-title-input {
+            width: 100%;
+            font-size: 20px;
+            font-weight: 600;
+            padding: 8px 12px;
+            border: 1px solid var(--light-gray);
+            border-radius: 6px;
+            margin-bottom: 16px;
+        }
+        
+        .task-status {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+        
+        .task-status.in-progress {
+            background-color: var(--light-blue);
+            color: var(--primary-blue);
+        }
+        
+        .task-description {
+            margin-bottom: 24px;
+        }
+        
+        .task-description h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        
+        .task-description p {
+            font-size: 14px;
+            line-height: 1.5;
+            color: var(--dark-gray);
+            margin-bottom: 16px;
+        }
+        
+        .task-description-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            border: 1px solid var(--light-gray);
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            resize: vertical;
+        }
+        
+        .task-activity {
+            margin-top: 24px;
+        }
+        
+        .task-activity h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        
+        .activity-item {
+            display: flex;
+            margin-bottom: 16px;
+        }
+        
+        .activity-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--light-blue);
+            color: var(--primary-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        
+        .activity-content {
+            flex: 1;
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+        
+        .activity-user {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .activity-time {
+            font-size: 12px;
+            color: var(--medium-gray);
+        }
+        
+        .activity-text {
+            font-size: 14px;
+            line-height: 1.5;
+            color: var(--dark-gray);
+        }
+        
+        .activity-text code {
+            font-family: 'Roboto Mono', monospace;
+            background-color: var(--off-white);
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        
+        .comment-input {
+            display: flex;
+            margin-top: 24px;
+        }
+        
+        .comment-input .activity-avatar {
+            margin-top: 8px;
+        }
+        
+        .comment-input-field {
+            flex: 1;
+            border: 1px solid var(--light-gray);
+            border-radius: 6px;
+            padding: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .comment-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 12px;
+        }
+        
+        /* Task Sidebar */
+        .task-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        
+        .sidebar-section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+        }
+        
+        .sidebar-section h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        
+        .property-group {
+            margin-bottom: 16px;
+        }
+        
+        .property-group:last-child {
+            margin-bottom: 0;
+        }
+        
+        .property-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--medium-gray);
+            margin-bottom: 4px;
+        }
+        
+        .property-value {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .property-select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid var(--light-gray);
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            background-color: white;
+        }
+        
+        .assignee {
+            display: flex;
+            align-items: center;
+        }
+        
+        .assignee .activity-avatar {
+            margin-right: 8px;
+        }
+        
+        .progress-section {
+            margin-top: 16px;
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .progress-label {
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .progress-percentage {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: var(--light-gray);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-bar-fill {
+            height: 100%;
+            background-color: var(--primary-blue);
+            border-radius: 4px;
+            width: 40%;
+        }
+        
+        .related-items h3 {
+            margin-bottom: 12px;
+        }
+        
+        .related-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            border: 1px solid var(--light-gray);
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+        
+        .related-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .related-item-icon {
+            margin-right: 8px;
+            color: var(--medium-gray);
+        }
+        
+        .related-item-text {
+            font-size: 14px;
+            flex: 1;
+        }
+        
+        .add-related {
+            display: flex;
+            align-items: center;
+            color: var(--primary-blue);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 12px;
+        }
+        
+        .add-related svg {
+            margin-right: 8px;
+        }
+        
+        /* AI Assistant */
+        .ai-assistant {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 48px;
+            height: 48px;
+            border-radius: 24px;
+            background-color: var(--purple);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .ai-assistant:hover {
+            transform: scale(1.05);
+        }
+        
+        /* AI Suggestions */
+        .ai-suggestions {
+            background-color: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .ai-suggestions-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .ai-suggestions-header svg {
+            color: var(--purple);
+            margin-right: 8px;
+        }
+        
+        .ai-suggestions-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--purple);
+        }
+        
+        .ai-suggestion {
+            background-color: white;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .ai-suggestion:last-child {
+            margin-bottom: 0;
+        }
+        
+        .ai-suggestion-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 8px;
+        }
+        
+        .ai-suggestion-action {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--primary-blue);
+            cursor: pointer;
+            margin-left: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="32" height="32" rx="8" fill="#2563EB"/>
+                    <path d="M10 16H22M16 10V22" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h1>TeamFlow</h1>
+            </div>
+            
+            <div class="nav-section">
+                <h2>Main</h2>
+                <a href="#" class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3.33334 10.8333V16.6667C3.33334 17.1087 3.50894 17.5326 3.82149 17.8452C4.13405 18.1577 4.55798 18.3333 5.00001 18.3333H15C15.442 18.3333 15.866 18.1577 16.1785 17.8452C16.4911 17.5326 16.6667 17.1087 16.6667 16.6667V10.8333M10 15V11.6667M8.33334 3.33333L1.66667 8.33333L8.33334 13.3333M11.6667 3.33333L18.3333 8.33333L11.6667 13.3333" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Dashboard
+                </a>
+                <a href="#" class="nav-item active">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6.66666 5H17.5M6.66666 10H17.5M6.66666 15H17.5M2.5 5H2.50833M2.5 10H2.50833M2.5 15H2.50833" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    My Tasks
+                </a>
+                <a href="#" class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6.66666 13.3333L10 16.6667L13.3333 13.3333M10 3.33333V16.6667M3.33333 6.66667L6.66666 3.33333L10 6.66667M16.6667 6.66667L13.3333 3.33333L10 6.66667" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Projects
+                </a>
+                <a href="#" class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 13.3333C12.3012 13.3333 14.1667 11.4679 14.1667 9.16667C14.1667 6.86548 12.3012 5 10 5C7.69881 5 5.83334 6.86548 5.83334 9.16667C5.83334 11.4679 7.69881 13.3333 10 13.3333Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M10 13.3333V16.6667M7.5 15.8333H12.5M2.5 9.16667H5.83333M14.1667 9.16667H17.5M4.16667 4.16667L6.66667 6.66667M15.8333 4.16667L13.3333 6.66667" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Insights
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <h2>Workspace</h2>
+                <a href="#" class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 10.8333C11.3807 10.8333 12.5 9.71405 12.5 8.33333C12.5 6.95262 11.3807 5.83333 10 5.83333C8.61929 5.83333 7.5 6.95262 7.5 8.33333C7.5 9.71405 8.61929 10.8333 10 10.8333Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M16.6667 8.33333C16.6667 14.1667 10 17.5 10 17.5C10 17.5 3.33334 14.1667 3.33334 8.33333C3.33334 6.56522 4.03572 4.86953 5.28596 3.61929C6.5362 2.36905 8.2319 1.66667 10 1.66667C11.7681 1.66667 13.4638 2.36905 14.714 3.61929C15.9643 4.86953 16.6667 6.56522 16.6667 8.33333Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Team
+                </a>
+                <a href="#" class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6.66666 16.6667H13.3333M10 13.3333V16.6667M5 3.33333H15C15.9205 3.33333 16.6667 4.07953 16.6667 5V11.6667C16.6667 12.5871 15.9205 13.3333 15 13.3333H5C4.07953 13.3333 3.33333 12.5871 3.33333 11.6667V5C3.33333 4.07953 4.07953 3.33333 5 3.33333Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Documents
+                </a>
+                <a href="#" class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 6.66667V10L12.5 12.5M17.5 10C17.5 14.1421 14.1421 17.5 10 17.5C5.85786 17.5 2.5 14.1421 2.5 10C2.5 5.85786 5.85786 2.5 10 2.5C14.1421 2.5 17.5 5.85786 17.5 10Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Calendar
+                </a>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <div class="header-left">
+                    <div class="back-button">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15.8333 10H4.16666M4.16666 10L9.99999 15.8333M4.16666 10L9.99999 4.16667" stroke="#1F2937" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h1>Task Details</h1>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="button secondary">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17.5 12.5V15.8333C17.5 16.2754 17.3244 16.6993 17.0118 17.0118C16.6993 17.3244 16.2754 17.5 15.8333 17.5H4.16667C3.72464 17.5 3.30072 17.3244 2.98816 17.0118C2.67559 16.6993 2.5 16.2754 2.5 15.8333V12.5M5.83333 8.33333L10 12.5M10 12.5L14.1667 8.33333M10 12.5V2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Share
+                    </button>
+                    <button class="button primary">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15.8333 5L7.5 13.3333L4.16667 10" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Save Changes
+                    </button>
+                </div>
+            </div>
+            
+            <div class="task-detail">
+                <div class="task-main">
+                    <div class="task-header">
+                        <div class="task-id">TASK-1234</div>
+                        <input type="text" class="task-title-input" value="Update user authentication flow">
+                        <div class="task-status in-progress">In Progress</div>
+                    </div>
+                    
+                    <div class="ai-suggestions">
+                        <div class="ai-suggestions-header">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 17.5C14.1421 17.5 17.5 14.1421 17.5 10C17.5 5.85786 14.1421 2.5 10 2.5C5.85786 2.5 2.5 5.85786 2.5 10C2.5 14.1421 5.85786 17.5 10 17.5Z" stroke="#8B5CF6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M10 13.3333H10.0083" stroke="#8B5CF6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M8.57501 7.5C8.77093 7.02822 9.12624 6.63729 9.58329 6.38466C10.0403 6.13203 10.5704 6.03271 11.0904 6.10208C11.6104 6.17146 12.0903 6.40608 12.4535 6.76907C12.8168 7.13205 13.0373 7.60174 13.0833 8.10833C13.0833 9.16667 11.4958 9.69583 10 9.69583V10.8333" stroke="#8B5CF6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <h3>AI Suggestions</h3>
+                        </div>
+                        
+                        <div class="ai-suggestion">
+                            Based on the PR activity, I notice this task is related to implementing OAuth 2.0. Consider adding specific acceptance criteria for different authentication providers.
+                            <div class="ai-suggestion-actions">
+                                <div class="ai-suggestion-action">Apply</div>
+                                <div class="ai-suggestion-action">Dismiss</div>
+                            </div>
+                        </div>
+                        
+                        <div class="ai-suggestion">
+                            This task might be blocked by the API gateway configuration. I recommend coordinating with the DevOps team.
+                            <div class="ai-suggestion-actions">
+                                <div class="ai-suggestion-action">Apply</div>
+                                <div class="ai-suggestion-action">Dismiss</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="task-description">
+                        <h3>Description</h3>
+                        <textarea class="task-description-textarea">Implement the new user authentication flow using OAuth 2.0 with support for multiple providers. This includes:
+
+1. Setting up OAuth 2.0 client configuration
+2. Implementing the authorization code flow
+3. Handling token refresh and storage
+4. Creating user profiles from provider data
+5. Supporting Google, GitHub, and Microsoft accounts
+
+The implementation should follow the security guidelines outlined in the architecture document and include comprehensive error handling.</textarea>
+                    </div>
+                    
+                    <div class="task-activity">
+                        <h3>Activity</h3>
+                        
+                        <div class="activity-item">
+                            <div class="activity-avatar">JD</div>
+                            <div class="activity-content">
+                                <div class="activity-header">
+                                    <div class="activity-user">John Doe</div>
+                                    <div class="activity-time">Today at 10:23 AM</div>
+                                </div>
+                                <div class="activity-text">
+                                    Created pull request <code>PR-567</code> with initial OAuth implementation for Google provider.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="activity-item">
+                            <div class="activity-avatar">AS</div>
+                            <div class="activity-content">
+                                <div class="activity-header">
+                                    <div class="activity-user">Alice Smith</div>
+                                    <div class="activity-time">Yesterday at 4:15 PM</div>
+                                </div>
+                                <div class="activity-text">
+                                    Added comments to the security review. We need to ensure we're using PKCE for the OAuth flow.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="activity-item">
+                            <div class="activity-avatar">JD</div>
+                            <div class="activity-content">
+                                <div class="activity-header">
+                                    <div class="activity-user">John Doe</div>
+                                    <div class="activity-time">Yesterday at 2:45 PM</div>
+                                </div>
+                                <div class="activity-text">
+                                    Updated task status from "Not Started" to "In Progress"
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="comment-input">
+                            <div class="activity-avatar">JD</div>
+                            <div style="flex: 1;">
+                                <textarea class="comment-input-field" placeholder="Add a comment..."></textarea>
+                                <div class="comment-actions">
+                                    <button class="button primary">Comment</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="task-sidebar">
+                    <div class="sidebar-section">
+                        <h3>Details</h3>
+                        
+                        <div class="property-group">
+                            <div class="property-label">Status</div>
+                            <select class="property-select">
+                                <option>Not Started</option>
+                                <option selected>In Progress</option>
+                                <option>In Review</option>
+                                <option>Blocked</option>
+                                <option>Completed</option>
+                            </select>
+                        </div>
+                        
+                        <div class="property-group">
+                            <div class="property-label">Assignee</div>
+                            <div class="assignee">
+                                <div class="activity-avatar">JD</div>
+                                <div class="property-value">John Doe</div>
+                            </div>
+                        </div>
+                        
+                        <div class="property-group">
+                            <div class="property-label">Due Date</div>
+                            <div class="property-value">April 10, 2025</div>
+                        </div>
+                        
+                        <div class="property-group">
+                            <div class="property-label">Priority</div>
+                            <select class="property-select">
+                                <option>Low</option>
+                                <option>Medium</option>
+                                <option selected>High</option>
+                                <option>Urgent</option>
+                            </select>
+                        </div>
+                        
+                        <div class="property-group">
+                            <div class="property-label">Project</div>
+                            <div class="property-value">User Authentication Revamp</div>
+                        </div>
+                        
+                        <div class="property-group">
+                            <div class="property-label">Sprint</div>
+                            <div class="property-value">Sprint 24</div>
+                        </div>
+                        
+                        <div class="progress-section">
+                            <div class="progress-header">
+                                <div class="progress-label">Progress</div>
+                                <div class="progress-percentage">40%</div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-bar-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="sidebar-section related-items">
+                        <h3>Related Items</h3>
+                        
+                        <div class="related-item">
+                            <div class="related-item-icon">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8 14C11.3137 14 14 11.3137 14 8C14 4.68629 11.3137 2 8 2C4.68629 2 2 4.68629 2 8C2 11.3137 4.68629 14 8 14Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M8 5.33333V8L9.33333 9.33333" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="related-item-text">PR-567: Implement OAuth for Google</div>
+                        </div>
+                        
+                        <div class="related-item">
+                            <div class="related-item-icon">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M13.3333 7.33333V12.6667C13.3333 13.0203 13.0203 13.3333 12.6667 13.3333H3.33333C2.97971 13.3333 2.66667 13.0203 2.66667 12.6667V3.33333C2.66667 2.97971 2.97971 2.66667 3.33333 2.66667H8.66667" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M11.3333 1.66667H14V4.33333" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M7.33333 8.33333L13.6667 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="related-item-text">Auth Architecture Doc</div>
+                        </div>
+                        
+                        <div class="related-item">
+                            <div class="related-item-icon">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M5.33333 4H13.3333M5.33333 8H13.3333M5.33333 12H13.3333M2 4H2.00667M2 8H2.00667M2 12H2.00667" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="related-item-text">TASK-1235: API Gateway Config</div>
+                        </div>
+                        
+                        <div class="add-related">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 4V12M4 8H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Add related item
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- AI Assistant Button -->
+            <div class="ai-assistant">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M3 16V8C3 5.23858 5.23858 3 8 3H16C18.7614 3 21 5.23858 21 8V16C21 18.7614 18.7614 21 16 21H8C5.23858 21 3 18.7614 3 16Z" stroke="white" stroke-width="1.5"/>
+                    <path d="M17.5 6.5H17.51" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+```

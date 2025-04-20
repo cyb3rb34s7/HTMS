@@ -1,0 +1,601 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeamFlow Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Primary Colors */
+            --primary-blue: #2563EB;
+            --deep-navy: #1E40AF;
+            --light-blue: #DBEAFE;
+            
+            /* Secondary Colors */
+            --success-green: #10B981;
+            --warning-amber: #F59E0B;
+            --error-red: #EF4444;
+            --purple: #8B5CF6;
+            
+            /* Neutral Colors */
+            --dark-gray: #1F2937;
+            --medium-gray: #6B7280;
+            --light-gray: #E5E7EB;
+            --off-white: #F9FAFB;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark-gray);
+            background-color: var(--off-white);
+        }
+        
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            background-color: white;
+            border-right: 1px solid var(--light-gray);
+            padding: 24px 0;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .logo {
+            padding: 0 24px 24px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 32px;
+            margin-right: 12px;
+        }
+        
+        .logo h1 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--deep-navy);
+        }
+        
+        .nav-section {
+            margin-bottom: 24px;
+        }
+        
+        .nav-section h2 {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--medium-gray);
+            padding: 8px 24px;
+            margin-bottom: 4px;
+        }
+        
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 24px;
+            color: var(--dark-gray);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .nav-item.active {
+            background-color: var(--light-blue);
+            color: var(--primary-blue);
+            border-left: 3px solid var(--primary-blue);
+            padding-left: 21px;
+        }
+        
+        .nav-item:hover:not(.active) {
+            background-color: rgba(219, 234, 254, 0.5);
+        }
+        
+        .nav-item svg {
+            margin-right: 12px;
+            width: 20px;
+            height: 20px;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            padding: 8px 16px;
+            width: 300px;
+        }
+        
+        .search-bar input {
+            border: none;
+            outline: none;
+            flex: 1;
+            font-size: 14px;
+            margin-left: 8px;
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-menu .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--primary-blue);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-left: 16px;
+        }
+        
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .dashboard-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+        }
+        
+        .dashboard-card h2 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .dashboard-card h2 svg {
+            margin-right: 8px;
+        }
+        
+        .metric {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .metric-description {
+            font-size: 14px;
+            color: var(--medium-gray);
+        }
+        
+        /* Tasks Section */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .section-header h2 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .button {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .button.primary {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+        }
+        
+        .button.primary:hover {
+            background-color: var(--deep-navy);
+        }
+        
+        .button svg {
+            margin-right: 8px;
+        }
+        
+        .tasks-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .tasks-header {
+            display: grid;
+            grid-template-columns: 3fr 1fr 1fr 1fr 1fr;
+            padding: 12px 24px;
+            background-color: var(--off-white);
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .tasks-header span {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--medium-gray);
+            text-transform: uppercase;
+        }
+        
+        .task-item {
+            display: grid;
+            grid-template-columns: 3fr 1fr 1fr 1fr 1fr;
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--light-gray);
+            align-items: center;
+        }
+        
+        .task-item:last-child {
+            border-bottom: none;
+        }
+        
+        .task-title {
+            font-weight: 500;
+        }
+        
+        .task-assignee {
+            display: flex;
+            align-items: center;
+        }
+        
+        .task-assignee .avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: var(--light-blue);
+            color: var(--primary-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 8px;
+        }
+        
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status-badge.in-progress {
+            background-color: var(--light-blue);
+            color: var(--primary-blue);
+        }
+        
+        .status-badge.completed {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--success-green);
+        }
+        
+        .status-badge.at-risk {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: var(--warning-amber);
+        }
+        
+        .status-badge.blocked {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: var(--error-red);
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: var(--light-gray);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+        }
+        
+        .progress-bar-fill.in-progress {
+            background-color: var(--primary-blue);
+            width: 40%;
+        }
+        
+        .progress-bar-fill.completed {
+            background-color: var(--success-green);
+            width: 100%;
+        }
+        
+        .progress-bar-fill.at-risk {
+            background-color: var(--warning-amber);
+            width: 60%;
+        }
+        
+        .progress-bar-fill.blocked {
+            background-color: var(--error-red);
+            width: 25%;
+        }
+        
+        .due-date {
+            color: var(--medium-gray);
+            font-size: 14px;
+        }
+        
+        .due-date.overdue {
+            color: var(--error-red);
+        }
+        
+        /* AI Assistant */
+        .ai-assistant {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 48px;
+            height: 48px;
+            border-radius: 24px;
+            background-color: var(--purple);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        
+        .ai-assistant:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="32" height="32" rx="8" fill="#2563EB"/>
+                    <path d="M10 16H22M16 10V22" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h1>TeamFlow</h1>
+            </div>
+            
+            <div class="nav-section">
+                <h2>Main</h2>
+                <a href="#" class="nav-item active">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3.33334 10.8333V16.6667C3.33334 17.1087 3.50894 17.5326 3.82149 17.8452C4.13405 18.1577 4.55798 18.3333 5.00001 18.3333H15C15.442 18.3333 15.866 18.1577 16.1785 17.8452C16.4911 17.5326 16.6667 17.1087 16.6667 16.6667V10.8333M10 15V11.6667M8.33334 3.33333L1.66667 8.33333L8.33334 13.3333M11.6667 3.33333L18.3333 8.33333L11.6667 13.3333" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Dashboard
+                </a>
+                <a href="#" class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6.66666 5H17.5M6.66666 10H17.5M6.66666 15H17.5M2.5 5H2.50833M2.5 10H2.50833M2.5 15H2.50833" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    My Tasks
+                </a>
+                <a href="#" class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6.66666 13.3333L10 16.6667L13.3333 13.3333M10 3.33333V16.6667M3.33333 6.66667L6.66666 3.33333L10 6.66667M16.6667 6.66667L13.3333 3.33333L10 6.66667" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Projects
+                </a>
+                <a href="#" class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 13.3333C12.3012 13.3333 14.1667 11.4679 14.1667 9.16667C14.1667 6.86548 12.3012 5 10 5C7.69881 5 5.83334 6.86548 5.83334 9.16667C5.83334 11.4679 7.69881 13.3333 10 13.3333Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M10 13.3333V16.6667M7.5 15.8333H12.5M2.5 9.16667H5.83333M14.1667 9.16667H17.5M4.16667 4.16667L6.66667 6.66667M15.8333 4.16667L13.3333 6.66667" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Insights
+                </a>
+            </div>
+            
+            <div class="nav-section">
+                <h2>Workspace</h2>
+                <a href="#" class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 10.8333C11.3807 10.8333 12.5 9.71405 12.5 8.33333C12.5 6.95262 11.3807 5.83333 10 5.83333C8.61929 5.83333 7.5 6.95262 7.5 8.33333C7.5 9.71405 8.61929 10.8333 10 10.8333Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M16.6667 8.33333C16.6667 14.1667 10 17.5 10 17.5C10 17.5 3.33334 14.1667 3.33334 8.33333C3.33334 6.56522 4.03572 4.86953 5.28596 3.61929C6.5362 2.36905 8.2319 1.66667 10 1.66667C11.7681 1.66667 13.4638 2.36905 14.714 3.61929C15.9643 4.86953 16.6667 6.56522 16.6667 8.33333Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Team
+                </a>
+                <a href="#" class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6.66666 16.6667H13.3333M10 13.3333V16.6667M5 3.33333H15C15.9205 3.33333 16.6667 4.07953 16.6667 5V11.6667C16.6667 12.5871 15.9205 13.3333 15 13.3333H5C4.07953 13.3333 3.33333 12.5871 3.33333 11.6667V5C3.33333 4.07953 4.07953 3.33333 5 3.33333Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Documents
+                </a>
+                <a href="#" class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 6.66667V10L12.5 12.5M17.5 10C17.5 14.1421 14.1421 17.5 10 17.5C5.85786 17.5 2.5 14.1421 2.5 10C2.5 5.85786 5.85786 2.5 10 2.5C14.1421 2.5 17.5 5.85786 17.5 10Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Calendar
+                </a>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <h1>Dashboard</h1>
+                
+                <div class="search-bar">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M17.5 17.5L13.875 13.875M15.8333 9.16667C15.8333 12.8486 12.8486 15.8333 9.16667 15.8333C5.48477 15.8333 2.5 12.8486 2.5 9.16667C2.5 5.48477 5.48477 2.5 9.16667 2.5C12.8486 2.5 15.8333 5.48477 15.8333 9.16667Z" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <input type="text" placeholder="Search...">
+                </div>
+                
+                <div class="user-menu">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 10.8333C11.3807 10.8333 12.5 9.71405 12.5 8.33333C12.5 6.95262 11.3807 5.83333 10 5.83333C8.61929 5.83333 7.5 6.95262 7.5 8.33333C7.5 9.71405 8.61929 10.8333 10 10.8333Z" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M5 16.6667C5 14.1667 7.5 12.5 10 12.5C12.5 12.5 15 14.1667 15 16.6667" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <div class="avatar">JD</div>
+                </div>
+            </div>
+            
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <h2>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 17.5C14.1421 17.5 17.5 14.1421 17.5 10C17.5 5.85786 14.1421 2.5 10 2.5C5.85786 2.5 2.5 5.85786 2.5 10C2.5 14.1421 5.85786 17.5 10 17.5Z" stroke="#2563EB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M10 6.66667V10L12.5 12.5" stroke="#2563EB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Tasks Due Soon
+                    </h2>
+                    <div class="metric">8</div>
+                    <div class="metric-description">Tasks due in the next 7 days</div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <h2>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 13.3333C12.3012 13.3333 14.1667 11.4679 14.1667 9.16667C14.1667 6.86548 12.3012 5 10 5C7.69881 5 5.83334 6.86548 5.83334 9.16667C5.83334 11.4679 7.69881 13.3333 10 13.3333Z" stroke="#10B981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M6.66666 13.3333L3.33333 16.6667M13.3333 13.3333L16.6667 16.6667" stroke="#10B981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Completed Tasks
+                    </h2>
+                    <div class="metric">24</div>
+                    <div class="metric-description">Tasks completed this month</div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <h2>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 17.5C14.1421 17.5 17.5 14.1421 17.5 10C17.5 5.85786 14.1421 2.5 10 2.5C5.85786 2.5 2.5 5.85786 2.5 10C2.5 14.1421 5.85786 17.5 10 17.5Z" stroke="#F59E0B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M10 6.66667V10M10 13.3333H10.0083" stroke="#F59E0B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        At Risk
+                    </h2>
+                    <div class="metric">3</div>
+                    <div class="metric-description">Tasks that need attention</div>
+                </div>
+            </div>
+            
+            <div class="section-header">
+                <h2>My Tasks</h2>
+                <button class="button primary">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 5V15M5 10H15" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Add Task
+                </button>
+            </div>
+            
+            <div class="tasks-container">
+                <div class="tasks-header">
+                    <span>Task</span>
+                    <span>Assignee</span>
+                    <span>Status</span>
+                    <span>Progress</span>
+                    <span>Due Date</span>
+                </div>
+                
+                <div class="task-item">
+                    <div class="task-title">Update user authentication flow</div>
+                    <div class="task-assignee">
+                        <div class="avatar">JD</div>
+                        <span>You</span>
+                    </div>
+                    <div class="status-badge in-progress">In Progress</div>
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill in-progress"></div>
+                    </div>
+                    <div class="due-date">Apr 10, 2025</div>
+                </div>
+                
+                <div class="task-item">
+                    <div class="task-title">Design new dashboard layout</div>
+                    <div class="task-assignee">
+                        <div class="avatar">JD</div>
+                        <span>You</span>
+                    </div>
+                    <div class="status-badge completed">Completed</div>
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill completed"></div>
+                    </div>
+                    <div class="due-date">Apr 5, 2025</div>
+                </div>
+                
+                <div class="task-item">
+                    <div class="task-title">Implement API integration with payment gateway</div>
+                    <div class="task-assignee">
+                        <div class="avatar">JD</div>
+                        <span>You</span>
+                    </div>
+                    <div class="status-badge at-risk">At Risk</div>
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill at-risk"></div>
+                    </div>
+                    <div class="due-date overdue">Apr 3, 2025</div>
+                </div>
+                
+                <div class="task-item">
+                    <div class="task-title">Fix responsive layout issues on mobile</div>
+                    <div class="task-assignee">
+                        <div class="avatar">JD</div>
+                        <span>You</span>
+                    </div>
+                    <div class="status-badge blocked">Blocked</div>
+                    <div class="progress-bar">
+                        <div class="progress-bar-fill blocked"></div>
+                    </div>
+                    <div class="due-date">Apr 12, 2025</div>
+                </div>
+            </div>
+            
+            <!-- AI Assistant Button -->
+            <div class="ai-assistant">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M3 16V8C3 5.23858 5.23858 3 8 3H16C18.7614 3 21 5.23858 21 8V16C21 18.7614 18.7614 21 16 21H8C5.23858 21 3 18.7614 3 16Z" stroke="white" stroke-width="1.5"/>
+                    <path d="M17.5 6.5H17.51" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+```

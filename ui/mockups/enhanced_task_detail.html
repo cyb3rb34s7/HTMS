@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTMS - Task Detail with AI-Powered Insights</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .progress-bar {
+            height: 8px;
+            border-radius: 4px;
+            background: #e2e8f0;
+            overflow: hidden;
+        }
+        .progress-value {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+        }
+        .ai-insight {
+            background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+        }
+        .sidebar-item {
+            transition: all 0.2s ease;
+        }
+        .sidebar-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .sidebar-item.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-left: 4px solid white;
+        }
+        .task-stage {
+            position: relative;
+        }
+        .task-stage:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -16px;
+            width: 32px;
+            height: 2px;
+            background-color: #e2e8f0;
+        }
+        .stage-complete {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+        .stage-active {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+        }
+        .stage-pending {
+            background-color: #f3f4f6;
+            color: #6b7280;
+        }
+        .comment-card {
+            transition: all 0.3s ease;
+        }
+        .comment-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="w-64 bg-indigo-900 text-white flex flex-col">
+            <div class="p-4 flex items-center border-b border-indigo-800">
+                <div class="bg-white p-1 rounded mr-2">
+                    <svg class="w-8 h-8 text-indigo-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path>
+                    </svg>
+                </div>
+                <h1 class="text-xl font-bold">HTMS</h1>
+            </div>
+            <div class="flex-1 overflow-y-auto">
+                <div class="p-4">
+                    <div class="sidebar-item flex items-center p-3 rounded mb-2">
+                        <i class="fas fa-tachometer-alt mr-3"></i>
+                        <span>Dashboard</span>
+                    </div>
+                    <div class="sidebar-item active flex items-center p-3 rounded mb-2">
+                        <i class="fas fa-tasks mr-3"></i>
+                        <span>My Tasks</span>
+                    </div>
+                    <div class="sidebar-item flex items-center p-3 rounded mb-2">
+                        <i class="fas fa-project-diagram mr-3"></i>
+                        <span>Projects</span>
+                    </div>
+                    <div class="sidebar-item flex items-center p-3 rounded mb-2">
+                        <i class="fas fa-brain mr-3"></i>
+                        <span>AI Assistant</span>
+                    </div>
+                    <div class="sidebar-item flex items-center p-3 rounded mb-2">
+                        <i class="fas fa-chart-line mr-3"></i>
+                        <span>Analytics</span>
+                    </div>
+                    <div class="sidebar-item flex items-center p-3 rounded mb-2">
+                        <i class="fas fa-smile mr-3"></i>
+                        <span>Team Pulse</span>
+                    </div>
+                    <div class="sidebar-item flex items-center p-3 rounded mb-2">
+                        <i class="fas fa-book mr-3"></i>
+                        <span>Knowledge Base</span>
+                    </div>
+                    <div class="sidebar-item flex items-center p-3 rounded mb-2">
+                        <i class="fas fa-cog mr-3"></i>
+                        <span>Settings</span>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 border-t border-indigo-800">
+                <div class="flex items-center">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-10 h-10 rounded-full mr-3">
+                    <div>
+                        <p class="font-semibold">Sarah Johnson</p>
+                        <p class="text-xs text-indigo-200">Senior Developer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top Navigation -->
+            <header class="bg-white shadow-sm">
+                <div class="flex items-center justify-between p-4">
+                    <div class="flex items-center">
+                        <button class="text-gray-600 mr-4">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <h2 class="text-xl font-semibold text-gray-800">Task Detail</h2>
+                        <div class="ml-6 flex items-center bg-gray-100 rounded-full px-3 py-1">
+                            <span class="text-sm text-gray-600 mr-2">Project:</span>
+                            <span class="font-medium text-gray-800">HTMS Development</span>
+                            <i class="fas fa-chevron-down ml-2 text-gray-500 text-xs"></i>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="relative mr-4">
+                            <input type="text" placeholder="Search..." class="bg-gray-100 rounded-full py-2 px-4 pl-10 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <i class="fas fa-search absolute left-3 top-2.5 text-gray-500"></i>
+                        </div>
+                        <button class="mr-3 relative">
+                            <i class="fas fa-bell text-gray-600"></i>
+                            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">3</span>
+                        </button>
+                        <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center">
+                            <i class="fas fa-edit mr-2"></i> Edit Task
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <main class="flex-1 overflow-y-auto p-6 bg-gray-100">
+                <div class="grid grid-cols-3 gap-6">
+                    <!-- Main Task Information -->
+                    <div class="col-span-2 space-y-6">
+                        <!-- Task Header -->
+                        <div class="bg-white rounded-xl shadow-md p-6">
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <div class="flex items-center mb-2">
+                                        <span class="bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded mr-2">Backend</span>
+                                        <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded">High Priority</span>
+                                    </div>
+                                    <h1 class="text-2xl font-bold text-gray-800">Implement Sentiment Analysis API</h1>
+                                    <p class="text-gray-600 mt-2">Create a robust API endpoint for sentiment analysis that integrates with the DTPE and provides real-time insights.</p>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button class="text-gray-400 hover:text-indigo-600 p-2">
+                                        <i class="far fa-star"></i>
+                                    </button>
+                                    <button class="text-gray-400 hover:text-indigo-600 p-2">
+                                        <i class="fas fa-ellipsis-h"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex flex-wrap gap-4 mb-6">
+                                <div class="flex items-center">
+                                    <i class="far fa-calendar text-gray-500 mr-2"></i>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Due Date</p>
+                                        <p class="text-sm font-medium text-gray-800">Apr 8, 2025</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="far fa-clock text-gray-500 mr-2"></i>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Estimated Time</p>
+                                        <p class="text-sm font-medium text-gray-800">16 hours</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-user text-gray-500 mr-2"></i>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Assignee</p>
+                                        <div class="flex items-center">
+                                            <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-5 h-5 rounded-full mr-1">
+                                            <p class="text-sm font-medium text-gray-800">Alex Chen</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-tag text-gray-500 mr-2"></i>
+                                    <div>
+                                        <p class="text-xs text-gray-500">Tags</p>
+                                        <div class="flex gap-1">
+                                            <span class="text-xs font-medium text-gray-800 bg-gray-100 px-2 py-0.5 rounded">API</span>
+                                            <span class="text-xs font-medium text-gray-800 bg-gray-100 px-2 py-0.5 rounded">NLP</span>
+                                            <span class="text-xs font-medium text-gray-800 bg-gray-100 px-2 py-0.5 rounded">ML</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <div class="flex justify-between text-sm text-gray-600 mb-1">
+                                    <span>Progress</span>
+                                    <span>45%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-value" style="width: 45%"></div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center text-sm text-yellow-600">
+                                    <i class="fas fa-exclamation-triangle mr-1"></i>
+                                    <span>Dependency blocked</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <button class="text-gray-600 hover:text-indigo-600 mr-4">
+                                        <i class="far fa-comment-alt mr-1"></i> 8 Comments
+                                    </button>
+                                    <button class="text-gray-600 hover:text-indigo-600">
+                                        <i class="fas fa-code-branch mr-1"></i> 2 PRs
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dynamic Task Progression -->
+                        <div class="bg-white rounded-xl shadow-md p-6">
+                            <h2 class="text-lg font-semibold text-gray-800 mb-4">
+                                <i class="fas fa-project-diagram text-indigo-600 mr-2"></i> Dynamic Task Progression
+                            </h2>
+                            <div class="flex justify-between items-center mb-6">
+                                <div class="flex space-x-4">
+                                    <div class="task-stage stage-complete rounded-full w-12 h-12 flex items-center justify-center">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <div class="task-stage stage-complete rounded-full w-12 h-12 flex items-center justify-center">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <div class="task-stage stage-active rounded-full w-12 h-12 flex items-center justify-center">
+                                        <i class="fas fa-code"></i>
+                                    </div>
+                                    <div class="task-stage stage-pending rounded-full w-12 h-12 flex items-center justify-center">
+                                        <i class="fas fa-vial"></i>
+                                    </div>
+                                    <div class="task-stage stage-pending rounded-full w-12 h-12 flex items-center justify-center">
+                                        <i class="fas fa-check-double"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-5 gap-4 text-center text-sm">
+                                <div class="text-green-600 font-medium">
+                                    <p>Planning</p>
+                                    <p class="text-xs text-gray-500 mt-1">Apr 3, 2025</p>
+                                </div>
+                                <div class="text-green-600 font-medium">
+                                    <p>Design</p>
+                                    <p class="text-xs text-gray-500 mt-1">Apr 5, 2025</p>
+                                </div>
+                                <div class="text-blue-600 font-medium">
+                                    <p>Development</p>
+                                    <p class="text-xs text-gray-500 mt-1">In Progress</p>
+                                </div>
+                                <div class="text-gray-500">
+                                    <p>Testing</p>
+                                    <p class="text-xs text-gray-400 mt-1">Pending</p>
+                                </div>
+                                <div class="text-gray-500">
+                                    <p>Review</p>
+                                    <p class="text-xs text-gray-400 mt-1">Pending</p>
+                                </div>
+                            </div>
+                            <div class="mt-6 bg-blue-50 border border-blue-100 rounded-lg p-4">
+                                <div class="flex items-start">
+                                    <i class="fas fa-info-circle text-blue-600 mt-0.5 mr-3"></i>
+                                    <div>
+                                        <p class="text-sm font-medium text-blue-800">Current Stage: Development</p>
+                                        <p class="text-sm text-blue-600 mt-1">Alex has committed 3 times to the feature branch in the last 2 days. Based on commit patterns, development is progressing at expected pace.</p>
+                                        <div class="mt-2 flex items-center text-xs text-blue-700">
+                                            <i class="fas fa-code-branch mr-1"></i>
+                                            <span>Latest commit: <span class="font-mono">a7d3f9c</span> - "Add sentiment scoring function"</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AI Insights -->
+                        <div class="bg-white rounded-xl shadow-md p-6">
+                            <h2 class="text-lg font-semibold text-gray-800 mb-4">
+                                <i class="fas fa-robot text-indigo-600 mr-2"></i> AI Insights
+                            </h2>
+                            <div class="space-y-4">
+                                <div class="ai-insight text-white p-4 rounded-lg">
+                                    <div class="flex items-start">
+                                        <i class="fas fa-exclamation-triangle mt-1 mr-3"></i>
+                                        <div>
+                                            <h4 class="font-semibold mb-1">Dependency Risk Detected</h4>
+                                            <p class="text-sm opacity-90">This task is blocked by "NLP Model Training" (Task #126). Based on current progress, this dependency may delay completion by 2 days.</p>
+                                            <div class="mt-3 flex space-x-2">
+                                                <button class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white text-xs px-3 py-1 rounded-full">View Dependency</button>
+                                                <button class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white text-xs px-3 py-1 rounded-full">Suggest Alternatives</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-indigo-50 border border-indigo-100 rounded-lg p-4">
+                                    <div class="flex items-start">
+                                        <i class="fas fa-lightbulb text-indigo-600 mt-0.5 mr-3"></i>
+                                        <div>
+                                            <h4 class="text-sm font-medium text-indigo-800">Similar Task Pattern Detected</h4>
+                                            <p class="text-sm text-indigo-600 mt-1">This task is similar to "Implement User Activity API" completed last month. Consider reviewing that implementation for reusable patterns.</p>
+                                            <button class="mt-2 text-xs text-indigo-700 font-medium hover:text-indigo-800">
+                                                <i class="fas fa-link mr-1"></i> View Similar Task
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-green-50 border border-green-100 rounded-lg p-4">
+                                    <div class="flex items-start">
+                                        <i class="fas fa-code text-green-600 mt-0.5 mr-3"></i>
+                                        <div>
+                                            <h4 class="text-sm font-medium text-green-800">Code Suggestion</h4>
+                                            <p class="text-sm text-green-600 mt-1">Based on the task requirements, consider using the TextBlob library for initial sentiment analysis before implementing custom models.</p>
+                                            <div class="mt-2 bg-white bg-opacity-50 p-2 rounded font-mono text-xs text-green-800">
+                                                <pre>from textblob import TextBlob
+
+def analyze_sentiment(text):
+    analysis = TextBlob(text)
+    # Extract polarity score (-1 to 1)
+    return {
+        "polarity": analysis.sentiment.polarity,
+        "subjectivity": analysis.sentiment.subjectivity
+    }</pre>
+                                            </div>
+                                            <button class="mt-2 text-xs text-green-700 font-medium hover:text-green-800">
+                                                <i class="fas fa-copy mr-1"></i> Copy Code
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Comments Section -->
+                        <div class="bg-white rounded-xl shadow-md p-6">
+                            <h2 class="text-lg font-semibold text-gray-800 mb-4">
+                                <i class="far fa-comment-alt text-indigo-600 mr-2"></i> Comments
+                            </h2>
+                            <div class="space-y-4 mb-6">
+                                <div class="comment-card bg-gray-50 rounded-lg p-4">
+                                    <div class="flex">
+                                        <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-10 h-10 rounded-full mr-3">
+                                        <div class="flex-1">
+                                            <div class="flex justify-between">
+                                                <div>
+                                                    <p class="font-medium text-gray-900">Sarah Johnson</p>
+                                                    <p class="text-xs text-gray-500">Apr 5, 2025 at 10:32 AM</p>
+                                                </div>
+                                                <button class="text-gray-400 hover:text-gray-600">
+                                                    <i class="fas fa-ellipsis-h"></i>
+                                                </button>
+                                            </div>
+                                            <p class="text-gray-700 mt-2">Have you considered using the new NLP model we trained last sprint? It might give better results for technical language.</p>
+                                            <div class="mt-3 flex space-x-4">
+                                                <button class="text-gray-500 hover:text-indigo-600 text-sm">
+                                                    <i class="far fa-thumbs-up mr-1"></i> 3
+                                                </button>
+                                                <button class="text-gray-500 hover:text-indigo-600 text-sm">
+                                                    <i class="far fa-comment mr-1"></i> Reply
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="comment-card bg-gray-50 rounded-lg p-4 ml-12">
+                                    <div class="flex">
+                                        <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-10 h-10 rounded-full mr-3">
+                                        <div class="flex-1">
+                                            <div class="flex justify-between">
+                                                <div>
+                                                    <p class="font-medium text-gray-900">Alex Chen</p>
+                                                    <p class="text-xs text-gray-500">Apr 5, 2025 at 11:15 AM</p>
+                                                </div>
+                                                <button class="text-gray-400 hover:text-gray-600">
+                                                    <i class="fas fa-ellipsis-h"></i>
+                                                </button>
+                                            </div>
+                                            <p class="text-gray-700 mt-2">That's a good idea! I'll check with Maya about integrating it. The challenge might be performance since we need real-time analysis.</p>
+                                            <div class="mt-3 flex space-x-4">
+                                                <button class="text-gray-500 hover:text-indigo-600 text-sm">
+                                                    <i class="far fa-thumbs-up mr-1"></i> 1
+                                                </button>
+                                                <button class="text-gray-500 hover:text-indigo-600 text-sm">
+                                                    <i class="far fa-comment mr-1"></i> Reply
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="comment-card bg-gray-50 rounded-lg p-4">
+                                    <div class="flex">
+                                        <img src="https://randomuser.me/api/portraits/women/68.jpg" class="w-10 h-10 rounded-full mr-3">
+                                        <div class="flex-1">
+                                            <div class="flex justify-between">
+                                                <div>
+                                                    <p class="font-medium text-gray-900">Maya Patel</p>
+                                                    <p class="text-xs text-gray-500">Yesterday at 3:45 PM</p>
+                                                </div>
+                                                <button class="text-gray-400 hover:text-gray-600">
+                                                    <i class="fas fa-ellipsis-h"></i>
+                                                </button>
+                                            </div>
+                                            <p class="text-gray-700 mt-2">I've optimized the NLP model for inference. It should be fast enough for real-time analysis now. I'll share the endpoint details with you.</p>
+                                            <div class="mt-3 flex space-x-4">
+                                                <button class="text-gray-500 hover:text-indigo-600 text-sm">
+                                                    <i class="far fa-thumbs-up mr-1"></i> 4
+                                                </button>
+                                                <button class="text-gray-500 hover:text-indigo-600 text-sm">
+                                                    <i class="far fa-comment mr-1"></i> Reply
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex">
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-10 h-10 rounded-full mr-3">
+                                <div class="flex-1">
+                                    <textarea class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent" rows="3" placeholder="Add a comment..."></textarea>
+                                    <div class="mt-2 flex justify-between">
+                                        <div class="flex space-x-2">
+                                            <button class="text-gray-500 hover:text-indigo-600">
+                                                <i class="far fa-smile"></i>
+                                            </button>
+                                            <button class="text-gray-500 hover:text-indigo-600">
+                                                <i class="fas fa-paperclip"></i>
+                                            </button>
+                                            <button class="text-gray-500 hover:text-indigo-600">
+                                                <i class="fas fa-at"></i>
+                                            </button>
+                                        </div>
+                                        <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium">
+                                            Post Comment
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar Information -->
+                    <div class="space-y-6">
+                        <!-- Task Details -->
+                        <div class="bg-white rounded-xl shadow-md p-6">
+                            <h2 class="text-lg font-semibold text-gray-800 mb-4">
+                                <i class="fas fa-info-circle text-indigo-600 mr-2"></i> Details
+                            </h2>
+                            <div class="space-y-4">
+                                <div>
+                                    <p class="text-sm text-gray-500 mb-1">Created by</p>
+                                    <div class="flex items-center">
+                                        <img src="https://randomuser.me/api/portraits/men/75.jpg" class="w-6 h-6 rounded-full mr-2">
+                                        <p class="text-sm font-medium text-gray-800">James Wilson</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500 mb-1">Created on</p>
+                                    <p class="text-sm font-medium text-gray-800">Apr 2, 2025</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500 mb-1">Last updated</p>
+                                    <p class="text-sm font-medium text-gray-800">Today at 9:45 AM</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500 mb-1">Task ID</p>
+                                    <p class="text-sm font-medium text-gray-800">#HTMS-127</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500 mb-1">Sprint</p>
+                                    <p class="text-sm font-medium text-gray-800">Sprint 4 (Apr 1 - Apr 15)</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dependencies -->
+                        <div class="bg-white rounded-xl shadow-md p-6">
+                            <h2 class="text-lg font-semibold text-gray-800 mb-4">
+                                <i class="fas fa-link text-indigo-600 mr-2"></i> Dependencies
+                            </h2>
+                            <div class="space-y-3">
+                                <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                                    <div class="flex items-start">
+                                        <i class="fas fa-exclamation-circle text-yellow-500 mt-0.5 mr-2"></i>
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-800">NLP Model Training</p>
+                                            <div class="flex justify-between items-center mt-1">
+                                                <p class="text-xs text-gray-500">#HTMS-126</p>
+                                                <span class="text-xs font-medium text-yellow-800 bg-yellow-100 px-2 py-0.5 rounded">In Progress</span>
+                                            </div>
+                                            <div class="mt-2">
+                                                <div class="flex justify-between text-xs text-gray-500 mb-1">
+                                                    <span>Progress</span>
+                                                    <span>70%</span>
+                                                </div>
+                                                <div class="progress-bar">
+                                                    <div class="progress-value" style="width: 70%; background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%);"></div>
+                                                </div>
+                                            </div>
+                                            <button class="mt-2 text-xs text-yellow-700 font-medium hover:text-yellow-800">
+                                                <i class="fas fa-external-link-alt mr-1"></i> View Task
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-50 border border-gray-200 rounded-lg p-3">
+                                    <div class="flex items-start">
+                                        <i class="fas fa-link text-gray-500 mt-0.5 mr-2"></i>
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-800">API Authentication Framework</p>
+                                            <div class="flex justify-between items-center mt-1">
+                                                <p class="text-xs text-gray-500">#HTMS-112</p>
+                                                <span class="text-xs font-medium text-green-800 bg-green-100 px-2 py-0.5 rounded">Completed</span>
+                                            </div>
+                                            <button class="mt-2 text-xs text-gray-700 font-medium hover:text-gray-800">
+                                                <i class="fas fa-external-link-alt mr-1"></i> View Task
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Related Tasks -->
+                        <div class="bg-white rounded-xl shadow-md p-6">
+                            <h2 class="text-lg font-semibold text-gray-800 mb-4">
+                                <i class="fas fa-tasks text-indigo-600 mr-2"></i> Related Tasks
+                            </h2>
+                            <div class="space-y-3">
+                                <div class="border border-gray-200 rounded-lg p-3 hover:bg-gray-50 transition-colors">
+                                    <p class="text-sm font-medium text-gray-800">Create Sentiment Dashboard UI</p>
+                                    <div class="flex justify-between items-center mt-1">
+                                        <p class="text-xs text-gray-500">#HTMS-129</p>
+                                        <span class="text-xs font-medium text-blue-800 bg-blue-100 px-2 py-0.5 rounded">To Do</span>
+                                    </div>
+                                    <div class="mt-2 flex items-center text-xs text-gray-500">
+                                        <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-4 h-4 rounded-full mr-1">
+                                        <span>Sarah Johnson</span>
+                                    </div>
+                                </div>
+                                <div class="border border-gray-200 rounded-lg p-3 hover:bg-gray-50 transition-colors">
+                                    <p class="text-sm font-medium text-gray-800">Implement Team Pulse Analytics</p>
+                                    <div class="flex justify-between items-center mt-1">
+                                        <p class="text-xs text-gray-500">#HTMS-130</p>
+                                        <span class="text-xs font-medium text-blue-800 bg-blue-100 px-2 py-0.5 rounded">To Do</span>
+                                    </div>
+                                    <div class="mt-2 flex items-center text-xs text-gray-500">
+                                        <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-4 h-4 rounded-full mr-1">
+                                        <span>Alex Chen</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Activity Log -->
+                        <div class="bg-white rounded-xl shadow-md p-6">
+                            <h2 class="text-lg font-semibold text-gray-800 mb-4">
+                                <i class="fas fa-history text-indigo-600 mr-2"></i> Activity Log
+                            </h2>
+                            <div class="space-y-4">
+                                <div class="flex">
+                                    <div class="flex-shrink-0 mr-3">
+                                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-code-branch text-blue-600 text-sm"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-800">
+                                            <span class="font-medium">Alex Chen</span> pushed to <span class="font-mono text-xs bg-gray-100 px-1 py-0.5 rounded">feature/sentiment-api</span>
+                                        </p>
+                                        <p class="text-xs text-gray-500 mt-1">Today at 9:45 AM</p>
+                                    </div>
+                                </div>
+                                <div class="flex">
+                                    <div class="flex-shrink-0 mr-3">
+                                        <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-comment-alt text-purple-600 text-sm"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-800">
+                                            <span class="font-medium">Maya Patel</span> commented on this task
+                                        </p>
+                                        <p class="text-xs text-gray-500 mt-1">Yesterday at 3:45 PM</p>
+                                    </div>
+                                </div>
+                                <div class="flex">
+                                    <div class="flex-shrink-0 mr-3">
+                                        <div class="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-exclamation-triangle text-yellow-600 text-sm"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-800">
+                                            <span class="font-medium">System</span> flagged dependency risk
+                                        </p>
+                                        <p class="text-xs text-gray-500 mt-1">Yesterday at 2:30 PM</p>
+                                    </div>
+                                </div>
+                                <div class="flex">
+                                    <div class="flex-shrink-0 mr-3">
+                                        <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-tasks text-green-600 text-sm"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-gray-800">
+                                            <span class="font-medium">Alex Chen</span> changed status to <span class="font-medium">In Progress</span>
+                                        </p>
+                                        <p class="text-xs text-gray-500 mt-1">Apr 5, 2025 at 11:20 AM</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="mt-4 text-sm text-indigo-600 hover:text-indigo-800 font-medium">
+                                View Full History
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

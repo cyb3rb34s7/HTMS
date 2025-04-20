@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeamFlow - Enterprise Team Management Reimagined</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Primary Colors */
+            --primary-blue: #2563EB;
+            --deep-navy: #1E40AF;
+            --light-blue: #DBEAFE;
+            
+            /* Secondary Colors */
+            --success-green: #10B981;
+            --warning-amber: #F59E0B;
+            --error-red: #EF4444;
+            --purple: #8B5CF6;
+            --light-purple: #EDE9FE;
+            
+            /* Neutral Colors */
+            --dark-gray: #1F2937;
+            --medium-gray: #6B7280;
+            --light-gray: #E5E7EB;
+            --off-white: #F9FAFB;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--dark-gray);
+            background-color: var(--off-white);
+            line-height: 1.5;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+        
+        header {
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 1.5rem;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background-color: var(--primary-blue);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.75rem;
+        }
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--deep-navy);
+        }
+        
+        .nav {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin-right: 2rem;
+        }
+        
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-gray);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.2s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-blue);
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.625rem 1.25rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--deep-navy);
+        }
+        
+        .btn-secondary {
+            background-color: white;
+            color: var(--dark-gray);
+            border: 1px solid var(--light-gray);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--off-white);
+        }
+        
+        .hero {
+            padding: 10rem 0 6rem;
+            background: linear-gradient(to bottom, white, var(--off-white));
+        }
+        
+        .hero-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .hero-content {
+            max-width: 36rem;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, var(--deep-navy), var(--primary-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--medium-gray);
+            margin-bottom: 2rem;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .hero-image {
+            max-width: 40%;
+            border-radius: 0.5rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .features {
+            padding: 6rem 0;
+        }
+        
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: var(--medium-gray);
+            text-align: center;
+            max-width: 36rem;
+            margin: 0 auto 4rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .feature-icon {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-icon.blue {
+            background-color: var(--light-blue);
+            color: var(--primary-blue);
+        }
+        
+        .feature-icon.purple {
+            background-color: var(--light-purple);
+            color: var(--purple);
+        }
+        
+        .feature-icon.green {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--success-green);
+        }
+        
+        .feature-icon.amber {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: var(--warning-amber);
+        }
+        
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+        
+        .feature-description {
+            color: var(--medium-gray);
+            font-size: 1rem;
+        }
+        
+        .ai-section {
+            padding: 6rem 0;
+            background-color: white;
+        }
+        
+        .ai-container {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+        }
+        
+        .ai-content {
+            flex: 1;
+        }
+        
+        .ai-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--purple);
+        }
+        
+        .ai-description {
+            font-size: 1.125rem;
+            color: var(--medium-gray);
+            margin-bottom: 2rem;
+        }
+        
+        .ai-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        .ai-feature {
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .ai-feature-icon {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            background-color: var(--light-purple);
+            color: var(--purple);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .ai-feature-text {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .ai-image {
+            flex: 1;
+            max-width: 50%;
+            border-radius: 0.5rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .comparison {
+            padding: 6rem 0;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 3rem;
+            background-color: white;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1.25rem 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .comparison-table th {
+            background-color: var(--off-white);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
+        .comparison-table th:first-child {
+            width: 30%;
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .check {
+            color: var(--success-green);
+        }
+        
+        .x {
+            color: var(--error-red);
+        }
+        
+        .testimonials {
+            padding: 6rem 0;
+            background-color: white;
+        }
+        
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+        
+        .testimonial-card {
+            background-color: var(--off-white);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        
+        .testimonial-content {
+            font-size: 1.125rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .testimonial-avatar {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background-color: var(--light-blue);
+            color: var(--primary-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 1rem;
+        }
+        
+        .testimonial-info h4 {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .testimonial-info p {
+            font-size: 0.875rem;
+            color: var(--medium-gray);
+        }
+        
+        .cta {
+            padding: 6rem 0;
+            background: linear-gradient(to right, var(--deep-navy), var(--primary-blue));
+            color: white;
+            text-align: center;
+        }
+        
+        .cta-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        
+        .cta-subtitle {
+            font-size: 1.125rem;
+            max-width: 36rem;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .btn-white {
+            background-color: white;
+            color: var(--primary-blue);
+            border: none;
+        }
+        
+        .btn-white:hover {
+            background-color: var(--off-white);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        footer {
+            background-color: var(--dark-gray);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+        
+        .footer-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-logo-icon {
+            width: 2rem;
+            height: 2rem;
+            background-color: var(--primary-blue);
+            border-radius: 0.375rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.75rem;
+        }
+        
+        .footer-logo-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .footer-description {
+            color: var(--light-gray);
+            margin-bottom: 1.5rem;
+            max-width: 20rem;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .footer-social a {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: background-color 0.2s;
+        }
+        
+        .footer-social a:hover {
+            background-color: var(--primary-blue);
+        }
+        
+        .footer-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .footer-links a {
+            color: var(--light-gray);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--light-gray);
+            font-size: 0.875rem;
+        }
+        
+        .footer-bottom-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .footer-bottom-links a {
+            color: var(--light-gray);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .footer-bottom-links a:hover {
+            color: white;
+        }
+        
+        @media (max-width: 1024px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .hero-image {
+                max-width: 45%;
+            }
+            
+            .ai-container {
+                flex-direction: column;
+            }
+            
+            .ai-image {
+                max-width: 100%;
+                order: -1;
+            }
+            
+            .footer-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hero-content {
+                margin-bottom: 3rem;
+            }
+            
+            .hero-buttons {
+                justify-content: center;
+            }
+            
+            .hero-image {
+                max-width: 100%;
+            }
+            
+            .ai-features {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .footer-bottom-links {
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .ai-title {
+                font-size: 2rem;
+            }
+            
+            .cta-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 10H15M10 5V15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="logo-text">TeamFlow</div>
+            </div>
+            
+            <nav class="nav">
+                <ul class="nav-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#ai">AI Assistant</a></li>
+                    <li><a href="#comparison">Comparison</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                </ul>
+                
+                <a href="#cta" class="btn btn-primary">Get Started</a>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Enterprise Team Management Reimagined</h1>
+                <p class="hero-subtitle">TeamFlow replaces bloated tools like JIRA with an intuitive, AI-powered platform that helps teams track work more effectively and deliver projects faster.</p>
+                <div class="hero-buttons">
+                    <a href="#cta" class="btn btn-primary">Start Free Trial</a>
+                    <a href="#features" class="btn btn-secondary">Learn More</a>
+                </div>
+            </div>
+            
+            <img src="https://i.imgur.com/8jIZ0h0.png" alt="TeamFlow Dashboard" class="hero-image">
+        </div>
+    </section>
+    
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Features That Make a Difference</h2>
+            <p class="section-subtitle">TeamFlow combines powerful features with an intuitive interface to help teams work more efficiently.</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon blue">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 6H21M8 12H21M8 18H21M3 6H3.01M3 12H3.01M3 18H3.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Automatic Task Tracking</h3>
+                    <p class="feature-description">Tasks automatically update based on PR activity, eliminating manual status updates and keeping everyone in sync.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon purple">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12C8 14.2091 9.79086 16 12 16Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 16V20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M9 18H15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M3 12H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M17 12H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M5 5L8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M19 5L16 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">AI-Powered Insights</h3>
+                    <p class="feature-description">Get intelligent suggestions for task prioritization, risk identification, and resource allocation based on your team's data.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon green">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 8V16M12 11V16M8 14V16M6 20H18C19.1046 20 20 19.1046 20 18V6C20 4.89543 19.1046 4 18 4H6C4.89543 4 4 4.89543 4 6V18C4 19.1046 4.89543 20 6 20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Visual Progress Tracking</h3>
+                    <p class="feature-description">Track progress with intuitive visualizations that go beyond simple status updates, showing real-time completion percentages.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon amber">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 6H20M9 12H20M9 18H20M5 6V6.01M5 12V12.01M5 18V18.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Smart Workload Management</h3>
+                    <p class="feature-description">Optimize team workloads with intelligent task distribution that considers skills, capacity, and priorities.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon blue">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M13.5 3H12H8C6.34315 3 5 4.34315 5 6V18C5 19.6569 6.34315 21 8 21H16C17.6569 21 19 19.6569 19 18V9M13.5 3L19 8.625M13.5 3V8.625H19M9 13H15M9 17H15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Integrated Documentation</h3>
+                    <p class="feature-description">Create, share, and manage documents directly within your workflow, eliminating the need for separate documentation tools.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon purple">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 10L11 14L9 12M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Seamless Git Integration</h3>
+                    <p class="feature-description">Connect directly with GitHub, GitLab, and Bitbucket to automatically track development progress and link PRs to tasks.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="ai-section" id="ai">
+        <div class="container ai-container">
+            <div class="ai-content">
+                <h2 class="ai-title">Meet Your AI Assistant</h2>
+                <p class="ai-description">TeamFlow's AI assistant helps you work smarter by automating routine tasks, providing insights, and answering questions about your projects.</p>
+                
+                <div class="ai-features">
+                    <div class="ai-feature">
+                        <div class="ai-feature-icon">
+                            <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16.6667 5L7.5 14.1667L3.33333 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="ai-feature-text">Generate documentation automatically</div>
+                    </div>
+                    
+                    <div class="ai-feature">
+                        <div class="ai-feature-icon">
+                            <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16.6667 5L7.5 14.1667L3.33333 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="ai-feature-text">Identify potential project risks</div>
+                    </div>
+                    
+                    <div class="ai-feature">
+                        <div class="ai-feature-icon">
+                            <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16.6667 5L7.5 14.1667L3.33333 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="ai-feature-text">Suggest optimal task assignments</div>
+                    </div>
+                    
+                    <div class="ai-feature">
+                        <div class="ai-feature-icon">
+                            <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16.6667 5L7.5 14.1667L3.33333 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="ai-feature-text">Answer questions about your projects</div>
+                    </div>
+                    
+                    <div class="ai-feature">
+                        <div class="ai-feature-icon">
+                            <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16.6667 5L7.5 14.1667L3.33333 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="ai-feature-text">Create meeting summaries and action items</div>
+                    </div>
+                    
+                    <div class="ai-feature">
+                        <div class="ai-feature-icon">
+                            <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M16.6667 5L7.5 14.1667L3.33333 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="ai-feature-text">Analyze code changes and suggest improvements</div>
+                    </div>
+                </div>
+            </div>
+            
+            <img src="https://i.imgur.com/JZRWMc1.png" alt="TeamFlow AI Assistant" class="ai-image">
+        </div>
+    </section>
+    
+    <section class="comparison" id="comparison">
+        <div class="container">
+            <h2 class="section-title">Why Choose TeamFlow?</h2>
+            <p class="section-subtitle">See how TeamFlow compares to traditional enterprise tools like JIRA and Confluence.</p>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>TeamFlow</th>
+                        <th>JIRA + Confluence</th>
+                        <th>Other Tools</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Automatic task tracking from Git activity</td>
+                        <td class="check">✓</td>
+                        <td class="x">Limited</td>
+                        <td class="x">Limited</td>
+                    </tr>
+                    <tr>
+                        <td>AI-powered insights and suggestions</td>
+                        <td class="check">✓</td>
+                        <td class="x">×</td>
+                        <td class="x">Limited</td>
+                    </tr>
+                    <tr>
+                        <td>Visual progress tracking</td>
+                        <td class="check">✓</td>
+                        <td class="check">Limited</td>
+                        <td class="check">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Intelligent workload management</td>
+                        <td class="check">✓</td>
+                        <td class="x">×</td>
+                        <td class="x">Limited</td>
+                    </tr>
+                    <tr>
+                        <td>Integrated documentation</td>
+                        <td class="check">✓</td>
+                        <td class="check">✓</td>
+                        <td class="x">Limited</td>
+                    </tr>
+                    <tr>
+                        <td>Seamless Git integration</td>
+                        <td class="check">✓</td>
+                        <td class="check">Limited</td>
+                        <td class="check">Limited</td>
+                    </tr>
+                    <tr>
+                        <td>Clean, intuitive interface</td>
+                        <td class="check">✓</td>
+                        <td class="x">×</td>
+                        <td class="check">Varies</td>
+                    </tr>
+                    <tr>
+                        <td>Fast performance</td>
+                        <td class="check">✓</td>
+                        <td class="x">×</td>
+                        <td class="check">Varies</td>
+                    </tr>
+                    <tr>
+                        <td>Easy setup and onboarding</td>
+                        <td class="check">✓</td>
+                        <td class="x">×</td>
+                        <td class="check">Varies</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <h2 class="section-title">What Teams Are Saying</h2>
+            <p class="section-subtitle">Teams of all sizes are using TeamFlow to streamline their workflows and deliver projects faster.</p>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-content">"TeamFlow has transformed how our engineering team works. The automatic task tracking from PRs has eliminated so much manual overhead, and the AI suggestions are surprisingly helpful."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">JD</div>
+                        <div class="testimonial-info">
+                            <h4>John Doe</h4>
+                            <p>CTO, TechCorp</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="testimonial-content">"After years of struggling with JIRA's complexity, switching to TeamFlow was like a breath of fresh air. Our team onboarded in minutes, and productivity improved within the first week."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">AS</div>
+                        <div class="testimonial-info">
+                            <h4>Alice Smith</h4>
+                            <p>Product Manager, InnovateCo</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="testimonial-content">"The AI assistant in TeamFlow is a game-changer. It helps us identify risks before they become problems and generates documentation that would have taken hours to create manually."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">RJ</div>
+                        <div class="testimonial-info">
+                            <h4>Robert Johnson</h4>
+                            <p>Engineering Lead, DevSolutions</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="cta" id="cta">
+        <div class="container">
+            <h2 class="cta-title">Ready to Transform Your Team's Workflow?</h2>
+            <p class="cta-subtitle">Join thousands of teams that have switched to TeamFlow and improved their productivity.</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-white">Start Free Trial</a>
+                <a href="#" class="btn btn-outline">Schedule Demo</a>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div>
+                    <div class="footer-logo">
+                        <div class="footer-logo-icon">
+                            <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5 10H15M10 5V15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <div class="footer-logo-text">TeamFlow</div>
+                    </div>
+                    <p class="footer-description">TeamFlow is the modern team management platform that helps teams work more efficiently with AI-powered insights and seamless integrations.</p>
+                    <div class="footer-social">
+                        <a href="#">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M22 5.92375C21.2563 6.25 20.4637 6.46625 19.6375 6.57125C20.4875 6.06375 21.1363 5.26625 21.4412 4.305C20.6488 4.7775 19.7738 5.11125 18.8412 5.2975C18.0887 4.49625 17.0162 4 15.8462 4C13.5763 4 11.7487 5.8425 11.7487 8.10125C11.7487 8.42625 11.7762 8.73875 11.8438 9.03625C8.435 8.87 5.41875 7.23625 3.3925 4.7475C3.03875 5.36125 2.83125 6.06375 2.83125 6.82C2.83125 8.24 3.5625 9.49875 4.6525 10.2275C3.99375 10.215 3.3475 10.0238 2.8 9.7225C2.8 9.735 2.8 9.75125 2.8 9.7675C2.8 11.76 4.22125 13.415 6.085 13.7962C5.75125 13.8875 5.3875 13.9312 5.01 13.9312C4.7475 13.9312 4.4825 13.9163 4.23375 13.8712C4.765 15.4937 6.2725 16.6837 8.065 16.7175C6.67 17.8162 4.89875 18.4688 2.98125 18.4688C2.645 18.4688 2.3225 18.4538 2 18.4112C3.81625 19.5813 5.96875 20.25 8.29 20.25C15.835 20.25 19.96 14 19.96 8.5825C19.96 8.40125 19.9538 8.22625 19.945 8.0525C20.7588 7.475 21.4425 6.75375 22 5.92375Z" fill="currentColor"/>
+                            </svg>
+                        </a>
+                        <a href="#">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2.25C6.61547 2.25 2.25 6.61547 2.25 12C2.25 17.3845 6.61547 21.75 12 21.75C17.3845 21.75 21.75 17.3845 21.75 12C21.75 6.61547 17.3845 2.25 12 2.25ZM9.75 16.125H7.5V9.75H9.75V16.125ZM8.625 8.85C7.9275 8.85 7.3725 8.2875 7.3725 7.5975C7.3725 6.9075 7.9275 6.345 8.625 6.345C9.315 6.345 9.87 6.9075 9.87 7.5975C9.87 8.2875 9.315 8.85 8.625 8.85ZM16.5 16.125H14.25V12.9375C14.25 11.13 12.75 11.2575 12.75 12.9375V16.125H10.5V9.75H12.75V10.8075C13.5525 9.2625 16.5 9.1425 16.5 12.375V16.125Z" fill="currentColor"/>
+                            </svg>
+                        </a>
+                        <a href="#">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2.25C6.624 2.25 2.25 6.624 2.25 12C2.25 16.376 5.01375 20.0925 8.9175 21.3937C9.42 21.4875 9.5925 21.1763 9.5925 20.9025C9.5925 20.6513 9.58125 19.9275 9.58125 19.1475C7.125 19.5825 6.525 18.4988 6.3375 17.9625C6.23125 17.6963 5.775 16.875 5.4 16.6238C5.0925 16.425 4.59 15.99 5.3925 15.9788C6.15 15.9675 6.69375 16.6575 6.9 16.935C7.8 18.3375 9.2775 17.9963 9.63 17.7225C9.72375 17.1 9.99375 16.6913 10.2863 16.455C8.2425 16.2188 6.1125 15.4275 6.1125 11.7C6.1125 10.6838 6.4875 9.84375 6.9225 9.1875C6.81 8.925 6.47625 7.935 7.02375 6.45375C7.02375 6.45375 7.86375 6.18 9.5925 7.49625C10.3575 7.26375 11.1788 7.1475 12 7.1475C12.8212 7.1475 13.6425 7.26375 14.4075 7.49625C16.1362 6.16875 16.9762 6.45375 16.9762 6.45375C17.5238 7.935 17.19 8.925 17.0775 9.1875C17.5125 9.84375 17.8875 10.6725 17.8875 11.7C17.8875 15.4388 15.7462 16.2188 13.7025 16.455C14.0663 16.7513 14.3812 17.3213 14.3812 18.2063C14.3812 19.4738 14.37 20.5538 14.37 20.9025C14.37 21.1763 14.5425 21.4988 15.045 21.3938C18.9375 20.0925 21.7013 16.3763 21.7013 12C21.75 6.624 17.376 2.25 12 2.25Z" fill="currentColor"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="footer-title">Product</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Integrations</a></li>
+                        <li><a href="#">Enterprise</a></li>
+                        <li><a href="#">Security</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="footer-title">Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Guides</a></li>
+                        <li><a href="#">API Reference</a></li>
+                        <li><a href="#">Community</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="footer-title">Company</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Partners</a></li>
+                        <li><a href="#">Legal</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div>© 2025 TeamFlow. All rights reserved.</div>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

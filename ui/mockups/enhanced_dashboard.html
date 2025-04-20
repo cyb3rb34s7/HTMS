@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTMS Dashboard - Dynamic Task Progression</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .task-card {
+            transition: all 0.3s ease;
+        }
+        .task-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .progress-bar {
+            height: 8px;
+            border-radius: 4px;
+            background: #e2e8f0;
+            overflow: hidden;
+        }
+        .progress-value {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
+        }
+        .sentiment-positive {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+        .sentiment-neutral {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+        .sentiment-negative {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+        .ai-insight {
+            background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
+        }
+        .sidebar-item {
+            transition: all 0.2s ease;
+        }
+        .sidebar-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .sidebar-item.active {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-left: 4px solid white;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="w-64 bg-indigo-900 text-white flex flex-col">
+            <div class="p-4 flex items-center border-b border-indigo-800">
+                <div class="bg-white p-1 rounded mr-2">
+                    <svg class="w-8 h-8 text-indigo-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path>
+                    </svg>
+                </div>
+                <h1 class="text-xl font-bold">HTMS</h1>
+            </div>
+            <div class="flex-1 overflow-y-auto">
+                <div class="p-4">
+                    <div class="sidebar-item active flex items-center p-3 rounded mb-2">
+                        <i class="fas fa-tachometer-alt mr-3"></i>
+                        <span>Dashboard</span>
+                    </div>
+                    <div class="sidebar-item flex items-center p-3 rounded mb-2">
+                        <i class="fas fa-tasks mr-3"></i>
+                        <span>My Tasks</span>
+                    </div>
+                    <div class="sidebar-item flex items-center p-3 rounded mb-2">
+                        <i class="fas fa-project-diagram mr-3"></i>
+                        <span>Projects</span>
+                    </div>
+                    <div class="sidebar-item flex items-center p-3 rounded mb-2">
+                        <i class="fas fa-brain mr-3"></i>
+                        <span>AI Assistant</span>
+                    </div>
+                    <div class="sidebar-item flex items-center p-3 rounded mb-2">
+                        <i class="fas fa-chart-line mr-3"></i>
+                        <span>Analytics</span>
+                    </div>
+                    <div class="sidebar-item flex items-center p-3 rounded mb-2">
+                        <i class="fas fa-smile mr-3"></i>
+                        <span>Team Pulse</span>
+                    </div>
+                    <div class="sidebar-item flex items-center p-3 rounded mb-2">
+                        <i class="fas fa-book mr-3"></i>
+                        <span>Knowledge Base</span>
+                    </div>
+                    <div class="sidebar-item flex items-center p-3 rounded mb-2">
+                        <i class="fas fa-cog mr-3"></i>
+                        <span>Settings</span>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 border-t border-indigo-800">
+                <div class="flex items-center">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-10 h-10 rounded-full mr-3">
+                    <div>
+                        <p class="font-semibold">Sarah Johnson</p>
+                        <p class="text-xs text-indigo-200">Senior Developer</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top Navigation -->
+            <header class="bg-white shadow-sm">
+                <div class="flex items-center justify-between p-4">
+                    <div class="flex items-center">
+                        <h2 class="text-xl font-semibold text-gray-800">Team Dashboard</h2>
+                        <div class="ml-6 flex items-center bg-gray-100 rounded-full px-3 py-1">
+                            <span class="text-sm text-gray-600 mr-2">Project:</span>
+                            <span class="font-medium text-gray-800">HTMS Development</span>
+                            <i class="fas fa-chevron-down ml-2 text-gray-500 text-xs"></i>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="relative mr-4">
+                            <input type="text" placeholder="Search..." class="bg-gray-100 rounded-full py-2 px-4 pl-10 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <i class="fas fa-search absolute left-3 top-2.5 text-gray-500"></i>
+                        </div>
+                        <button class="mr-3 relative">
+                            <i class="fas fa-bell text-gray-600"></i>
+                            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">3</span>
+                        </button>
+                        <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center">
+                            <i class="fas fa-plus mr-2"></i> New Task
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <main class="flex-1 overflow-y-auto p-4 bg-gray-100">
+                <!-- AI Insights Section -->
+                <div class="bg-white rounded-xl shadow-md p-4 mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">
+                            <i class="fas fa-robot text-indigo-600 mr-2"></i> AI Insights
+                        </h3>
+                        <button class="text-sm text-gray-500 hover:text-indigo-600">
+                            <i class="fas fa-sync-alt mr-1"></i> Refresh
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="ai-insight text-white p-4 rounded-lg">
+                            <div class="flex items-start">
+                                <i class="fas fa-exclamation-triangle mt-1 mr-3"></i>
+                                <div>
+                                    <h4 class="font-semibold mb-1">Potential Bottleneck Detected</h4>
+                                    <p class="text-sm opacity-90">Backend API tasks are at risk of delaying frontend development. Consider reassigning resources.</p>
+                                    <button class="mt-2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white text-xs px-3 py-1 rounded-full">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ai-insight text-white p-4 rounded-lg">
+                            <div class="flex items-start">
+                                <i class="fas fa-lightbulb mt-1 mr-3"></i>
+                                <div>
+                                    <h4 class="font-semibold mb-1">Workload Optimization</h4>
+                                    <p class="text-sm opacity-90">Alex has capacity for additional tasks. Consider reassigning Task #452 from Sarah.</p>
+                                    <button class="mt-2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white text-xs px-3 py-1 rounded-full">Apply Suggestion</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ai-insight text-white p-4 rounded-lg">
+                            <div class="flex items-start">
+                                <i class="fas fa-calendar-check mt-1 mr-3"></i>
+                                <div>
+                                    <h4 class="font-semibold mb-1">Sprint Prediction</h4>
+                                    <p class="text-sm opacity-90">Current velocity suggests sprint completion 2 days ahead of schedule. Consider pulling forward tasks.</p>
+                                    <button class="mt-2 bg-white bg-opacity-20 hover:bg-opacity-30 text-white text-xs px-3 py-1 rounded-full">View Sprint Plan</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Pulse Section -->
+                <div class="bg-white rounded-xl shadow-md p-4 mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">
+                            <i class="fas fa-heartbeat text-pink-600 mr-2"></i> Team Pulse
+                        </h3>
+                        <div class="flex items-center">
+                            <span class="text-sm text-gray-500 mr-3">Last 7 days</span>
+                            <button class="text-sm text-gray-500 hover:text-indigo-600">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div class="bg-gradient-to-r from-green-50 to-green-100 p-4 rounded-lg border-l-4 border-green-500">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="text-sm text-gray-600">Overall Sentiment</p>
+                                    <h4 class="text-2xl font-bold text-green-700">Positive</h4>
+                                </div>
+                                <span class="text-green-500 bg-green-100 rounded-full px-2 py-1 text-xs font-medium">
+                                    <i class="fas fa-arrow-up"></i> 12%
+                                </span>
+                            </div>
+                            <div class="mt-2">
+                                <div class="flex justify-between text-xs text-gray-500 mb-1">
+                                    <span>Last Week</span>
+                                    <span>This Week</span>
+                                </div>
+                                <div class="h-2 bg-gray-200 rounded-full">
+                                    <div class="h-full bg-green-500 rounded-full" style="width: 78%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border border-gray-200">
+                            <p class="text-sm text-gray-600 mb-1">Workload Balance</p>
+                            <div class="flex items-end">
+                                <h4 class="text-2xl font-bold text-gray-800">85%</h4>
+                                <span class="text-green-500 text-xs ml-2 mb-1">
+                                    <i class="fas fa-arrow-up"></i> 5%
+                                </span>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">Optimal distribution across team</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border border-gray-200">
+                            <p class="text-sm text-gray-600 mb-1">Team Engagement</p>
+                            <div class="flex items-end">
+                                <h4 class="text-2xl font-bold text-gray-800">92%</h4>
+                                <span class="text-green-500 text-xs ml-2 mb-1">
+                                    <i class="fas fa-arrow-up"></i> 8%
+                                </span>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">Based on activity and communication</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg border border-gray-200">
+                            <p class="text-sm text-gray-600 mb-1">Burnout Risk</p>
+                            <div class="flex items-end">
+                                <h4 class="text-2xl font-bold text-gray-800">Low</h4>
+                                <span class="text-green-500 text-xs ml-2 mb-1">
+                                    <i class="fas fa-arrow-down"></i> 15%
+                                </span>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-1">1 team member needs attention</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Task Progress Section -->
+                <div class="mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">
+                            <i class="fas fa-tasks text-indigo-600 mr-2"></i> Dynamic Task Progression
+                        </h3>
+                        <div class="flex items-center">
+                            <div class="relative mr-3">
+                                <select class="bg-white border border-gray-300 rounded-md py-1 pl-3 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 appearance-none">
+                                    <option>All Tasks</option>
+                                    <option>My Tasks</option>
+                                    <option>Critical Tasks</option>
+                                </select>
+                                <i class="fas fa-chevron-down absolute right-3 top-2.5 text-gray-500 text-xs pointer-events-none"></i>
+                            </div>
+                            <button class="text-sm text-gray-500 hover:text-indigo-600">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- Task Card 1 -->
+                        <div class="task-card bg-white rounded-xl shadow-md overflow-hidden">
+                            <div class="p-4">
+                                <div class="flex justify-between items-start mb-3">
+                                    <div>
+                                        <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Frontend</span>
+                                        <h4 class="text-gray-800 font-medium mt-1">Implement Dashboard UI Components</h4>
+                                    </div>
+                                    <div class="flex">
+                                        <span class="bg-green-100 text-green-800 text-xs font-medium px-2 py-0.5 rounded-full flex items-center">
+                                            <i class="fas fa-code-branch mr-1"></i> 3 PRs
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="flex justify-between text-xs text-gray-500 mb-1">
+                                        <span>Progress</span>
+                                        <span>78%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-value" style="width: 78%"></div>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center text-sm">
+                                    <div class="flex items-center">
+                                        <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-6 h-6 rounded-full mr-2">
+                                        <span class="text-gray-600">Sarah Johnson</span>
+                                    </div>
+                                    <div class="text-gray-500">
+                                        <i class="far fa-clock mr-1"></i> 2 days left
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 px-4 py-3 border-t border-gray-100">
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center text-xs text-gray-500">
+                                        <i class="fas fa-chart-line text-green-500 mr-1"></i>
+                                        <span>On track</span>
+                                    </div>
+                                    <div class="flex">
+                                        <button class="text-gray-400 hover:text-indigo-600 mr-3">
+                                            <i class="far fa-comment-alt"></i>
+                                        </button>
+                                        <button class="text-gray-400 hover:text-indigo-600">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Task Card 2 -->
+                        <div class="task-card bg-white rounded-xl shadow-md overflow-hidden">
+                            <div class="p-4">
+                                <div class="flex justify-between items-start mb-3">
+                                    <div>
+                                        <span class="bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded">Backend</span>
+                                        <h4 class="text-gray-800 font-medium mt-1">Implement Sentiment Analysis API</h4>
+                                    </div>
+                                    <div class="flex">
+                                        <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2 py-0.5 rounded-full flex items-center">
+                                            <i class="fas fa-exclamation-circle mr-1"></i> At Risk
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="flex justify-between text-xs text-gray-500 mb-1">
+                                        <span>Progress</span>
+                                        <span>45%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-value" style="width: 45%"></div>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center text-sm">
+                                    <div class="flex items-center">
+                                        <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-6 h-6 rounded-full mr-2">
+                                        <span class="text-gray-600">Alex Chen</span>
+                                    </div>
+                                    <div class="text-gray-500">
+                                        <i class="far fa-clock mr-1"></i> 1 day left
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 px-4 py-3 border-t border-gray-100">
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center text-xs text-yellow-600">
+                                        <i class="fas fa-exclamation-triangle mr-1"></i>
+                                        <span>Dependency blocked</span>
+                                    </div>
+                                    <div class="flex">
+                                        <button class="text-gray-400 hover:text-indigo-600 mr-3">
+                                            <i class="far fa-comment-alt"></i>
+                                        </button>
+                                        <button class="text-gray-400 hover:text-indigo-600">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Task Card 3 -->
+                        <div class="task-card bg-white rounded-xl shadow-md overflow-hidden">
+                            <div class="p-4">
+                                <div class="flex justify-between items-start mb-3">
+                                    <div>
+                                        <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">DevOps</span>
+                                        <h4 class="text-gray-800 font-medium mt-1">Set Up CI/CD Pipeline for DTPE</h4>
+                                    </div>
+                                    <div class="flex">
+                                        <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-0.5 rounded-full flex items-center">
+                                            <i class="fas fa-code-branch mr-1"></i> 1 PR
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="flex justify-between text-xs text-gray-500 mb-1">
+                                        <span>Progress</span>
+                                        <span>92%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-value" style="width: 92%"></div>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center text-sm">
+                                    <div class="flex items-center">
+                                        <img src="https://randomuser.me/api/portraits/women/68.jpg" class="w-6 h-6 rounded-full mr-2">
+                                        <span class="text-gray-600">Maya Patel</span>
+                                    </div>
+                                    <div class="text-gray-500">
+                                        <i class="far fa-clock mr-1"></i> Due today
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 px-4 py-3 border-t border-gray-100">
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center text-xs text-green-600">
+                                        <i class="fas fa-check-circle mr-1"></i>
+                                        <span>Almost complete</span>
+                                    </div>
+                                    <div class="flex">
+                                        <button class="text-gray-400 hover:text-indigo-600 mr-3">
+                                            <i class="far fa-comment-alt"></i>
+                                        </button>
+                                        <button class="text-gray-400 hover:text-indigo-600">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 text-center">
+                        <button class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
+                            View All Tasks <i class="fas fa-chevron-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Team Activity & Workload Section -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Team Activity -->
+                    <div class="bg-white rounded-xl shadow-md p-4">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-gray-800">
+                                <i class="fas fa-users text-indigo-600 mr-2"></i> Team Activity
+                            </h3>
+                            <button class="text-sm text-gray-500 hover:text-indigo-600">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-10 h-10 rounded-full mr-3">
+                                <div class="flex-1">
+                                    <div class="flex justify-between">
+                                        <p class="text-sm font-medium text-gray-900">Sarah Johnson</p>
+                                        <span class="text-xs text-gray-500">10:32 AM</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600">Completed PR review for "Dashboard UI Components"</p>
+                                    <div class="mt-1 flex">
+                                        <span class="bg-green-100 text-green-800 text-xs font-medium px-2 py-0.5 rounded-full">
+                                            <i class="fas fa-code-branch mr-1"></i> PR #42
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-10 h-10 rounded-full mr-3">
+                                <div class="flex-1">
+                                    <div class="flex justify-between">
+                                        <p class="text-sm font-medium text-gray-900">Alex Chen</p>
+                                        <span class="text-xs text-gray-500">9:45 AM</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600">Created new task "Implement NLP Model for Sentiment Analysis"</p>
+                                    <div class="mt-1 flex">
+                                        <span class="bg-purple-100 text-purple-800 text-xs font-medium px-2 py-0.5 rounded-full">
+                                            <i class="fas fa-tasks mr-1"></i> Task #128
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <img src="https://randomuser.me/api/portraits/women/68.jpg" class="w-10 h-10 rounded-full mr-3">
+                                <div class="flex-1">
+                                    <div class="flex justify-between">
+                                        <p class="text-sm font-medium text-gray-900">Maya Patel</p>
+                                        <span class="text-xs text-gray-500">Yesterday</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600">Deployed CI/CD pipeline to staging environment</p>
+                                    <div class="mt-1 flex">
+                                        <span class="bg-green-100 text-green-800 text-xs font-medium px-2 py-0.5 rounded-full">
+                                            <i class="fas fa-rocket mr-1"></i> Deployment
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <img src="https://randomuser.me/api/portraits/men/75.jpg" class="w-10 h-10 rounded-full mr-3">
+                                <div class="flex-1">
+                                    <div class="flex justify-between">
+                                        <p class="text-sm font-medium text-gray-900">James Wilson</p>
+                                        <span class="text-xs text-gray-500">Yesterday</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600">Updated documentation for DTPE integration</p>
+                                    <div class="mt-1 flex">
+                                        <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-0.5 rounded-full">
+                                            <i class="fas fa-book mr-1"></i> Documentation
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <button class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
+                                View All Activity <i class="fas fa-chevron-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Team Workload -->
+                    <div class="bg-white rounded-xl shadow-md p-4">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold text-gray-800">
+                                <i class="fas fa-balance-scale text-indigo-600 mr-2"></i> Team Workload
+                            </h3>
+                            <button class="text-sm text-gray-500 hover:text-indigo-600">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex items-center">
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-10 h-10 rounded-full mr-3">
+                                <div class="flex-1">
+                                    <div class="flex justify-between mb-1">
+                                        <p class="text-sm font-medium text-gray-900">Sarah Johnson</p>
+                                        <span class="text-xs font-medium text-yellow-600">85% Capacity</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-value" style="width: 85%; background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%);"></div>
+                                    </div>
+                                    <div class="mt-1 flex">
+                                        <span class="text-xs text-gray-500">4 active tasks</span>
+                                        <span class="mx-2 text-gray-300">|</span>
+                                        <span class="text-xs text-gray-500">Frontend focus</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-10 h-10 rounded-full mr-3">
+                                <div class="flex-1">
+                                    <div class="flex justify-between mb-1">
+                                        <p class="text-sm font-medium text-gray-900">Alex Chen</p>
+                                        <span class="text-xs font-medium text-green-600">65% Capacity</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-value" style="width: 65%; background: linear-gradient(90deg, #10b981 0%, #059669 100%);"></div>
+                                    </div>
+                                    <div class="mt-1 flex">
+                                        <span class="text-xs text-gray-500">3 active tasks</span>
+                                        <span class="mx-2 text-gray-300">|</span>
+                                        <span class="text-xs text-gray-500">Backend focus</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <img src="https://randomuser.me/api/portraits/women/68.jpg" class="w-10 h-10 rounded-full mr-3">
+                                <div class="flex-1">
+                                    <div class="flex justify-between mb-1">
+                                        <p class="text-sm font-medium text-gray-900">Maya Patel</p>
+                                        <span class="text-xs font-medium text-red-600">95% Capacity</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-value" style="width: 95%; background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);"></div>
+                                    </div>
+                                    <div class="mt-1 flex">
+                                        <span class="text-xs text-gray-500">5 active tasks</span>
+                                        <span class="mx-2 text-gray-300">|</span>
+                                        <span class="text-xs text-gray-500">DevOps focus</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <img src="https://randomuser.me/api/portraits/men/75.jpg" class="w-10 h-10 rounded-full mr-3">
+                                <div class="flex-1">
+                                    <div class="flex justify-between mb-1">
+                                        <p class="text-sm font-medium text-gray-900">James Wilson</p>
+                                        <span class="text-xs font-medium text-green-600">70% Capacity</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-value" style="width: 70%; background: linear-gradient(90deg, #10b981 0%, #059669 100%);"></div>
+                                    </div>
+                                    <div class="mt-1 flex">
+                                        <span class="text-xs text-gray-500">3 active tasks</span>
+                                        <span class="mx-2 text-gray-300">|</span>
+                                        <span class="text-xs text-gray-500">Documentation focus</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="bg-indigo-50 border border-indigo-100 rounded-lg p-3">
+                                <div class="flex items-start">
+                                    <i class="fas fa-lightbulb text-indigo-600 mt-0.5 mr-2"></i>
+                                    <div>
+                                        <p class="text-sm font-medium text-indigo-800">AI Recommendation</p>
+                                        <p class="text-xs text-indigo-600 mt-1">Consider redistributing 2 tasks from Maya to Alex to balance workload and reduce burnout risk.</p>
+                                        <button class="mt-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs px-3 py-1 rounded-full">Apply Suggestion</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

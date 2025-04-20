@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeamFlow - Next-Generation Team Management Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        }
+        .feature-card {
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        .testimonial-card {
+            transition: all 0.3s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-3px);
+        }
+        .cta-gradient {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        }
+        .ai-glow {
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.5);
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <div class="h-10 w-10 rounded bg-indigo-600 flex items-center justify-center text-white font-bold text-xl">TF</div>
+                    </div>
+                    <div class="ml-3">
+                        <h1 class="text-2xl font-bold text-indigo-600">TeamFlow</h1>
+                    </div>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#features" class="text-gray-600 hover:text-indigo-600 font-medium">Features</a>
+                    <a href="#ai" class="text-gray-600 hover:text-indigo-600 font-medium">AI Capabilities</a>
+                    <a href="#comparison" class="text-gray-600 hover:text-indigo-600 font-medium">Why TeamFlow</a>
+                    <a href="#testimonials" class="text-gray-600 hover:text-indigo-600 font-medium">Testimonials</a>
+                </nav>
+                <div class="flex items-center">
+                    <a href="#demo" class="hidden md:inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-600 bg-indigo-50 hover:bg-indigo-100">
+                        Request Demo
+                    </a>
+                    <a href="#cta" class="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+                        Get Started
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg py-20">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <h2 class="text-4xl md:text-5xl font-bold text-white leading-tight mb-6">
+                        Team Management Reimagined with AI
+                    </h2>
+                    <p class="text-indigo-100 text-xl mb-8 max-w-lg">
+                        TeamFlow transforms how teams work with intelligent task tracking, real-time insights, and AI-powered assistance that adapts to your team's unique workflow.
+                    </p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="#cta" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-white hover:bg-indigo-50">
+                            Start Free Trial
+                        </a>
+                        <a href="#demo" class="inline-flex items-center justify-center px-6 py-3 border border-white text-base font-medium rounded-md text-white hover:bg-indigo-700">
+                            <i class="fas fa-play-circle mr-2"></i> Watch Demo
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-1/2">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-indigo-800 rounded-lg opacity-10 transform rotate-3"></div>
+                        <img src="https://placehold.co/600x400/4f46e5/FFFFFF?text=TeamFlow+Dashboard" alt="TeamFlow Dashboard" class="relative rounded-lg shadow-xl ai-glow">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Features Section -->
+    <section id="features" class="py-20">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Key Features That Set Us Apart</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    TeamFlow combines powerful task management with AI-driven insights to create a truly next-generation team management experience.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="feature-card bg-white rounded-lg shadow-md p-6 border-t-4 border-indigo-600">
+                    <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center text-indigo-600 mb-4">
+                        <i class="fas fa-chart-line text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Dynamic Task Progression</h3>
+                    <p class="text-gray-600 mb-4">
+                        Automatically track task progress through code commits, PR activity, and documentation updates without manual status changes.
+                    </p>
+                    <ul class="text-gray-600 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Real-time progress visualization</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Automatic stage transitions</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Predictive completion analysis</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="feature-card bg-white rounded-lg shadow-md p-6 border-t-4 border-purple-600">
+                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 mb-4">
+                        <i class="fas fa-brain text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">AI-Powered Insights</h3>
+                    <p class="text-gray-600 mb-4">
+                        Leverage machine learning to identify risks, optimize workloads, and provide actionable recommendations for your team.
+                    </p>
+                    <ul class="text-gray-600 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Dependency risk detection</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Workload optimization</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Anomaly detection and alerts</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="feature-card bg-white rounded-lg shadow-md p-6 border-t-4 border-blue-600">
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 mb-4">
+                        <i class="fas fa-smile text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Team Pulse Monitoring</h3>
+                    <p class="text-gray-600 mb-4">
+                        Monitor team sentiment and well-being through multi-channel analysis to prevent burnout and maintain high morale.
+                    </p>
+                    <ul class="text-gray-600 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Sentiment analysis</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Burnout prediction</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Anonymous feedback collection</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="feature-card bg-white rounded-lg shadow-md p-6 border-t-4 border-green-600">
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center text-green-600 mb-4">
+                        <i class="fas fa-balance-scale text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Intelligent Workload Balancing</h3>
+                    <p class="text-gray-600 mb-4">
+                        Automatically distribute tasks based on team capacity, skills, and priorities to ensure optimal resource allocation.
+                    </p>
+                    <ul class="text-gray-600 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Skill-based matching</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Capacity forecasting</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Context switching minimization</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="feature-card bg-white rounded-lg shadow-md p-6 border-t-4 border-red-600">
+                    <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center text-red-600 mb-4">
+                        <i class="fas fa-robot text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">AI Assistant</h3>
+                    <p class="text-gray-600 mb-4">
+                        Get instant help with sprint planning, task management, and team coordination through a conversational AI interface.
+                    </p>
+                    <ul class="text-gray-600 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Sprint planning assistance</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Dependency analysis</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Documentation generation</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="feature-card bg-white rounded-lg shadow-md p-6 border-t-4 border-yellow-600">
+                    <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center text-yellow-600 mb-4">
+                        <i class="fas fa-code-branch text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Seamless Integrations</h3>
+                    <p class="text-gray-600 mb-4">
+                        Connect with your existing tools like GitHub, GitLab, Slack, and more for a unified workflow experience.
+                    </p>
+                    <ul class="text-gray-600 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Code repository integration</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>Communication platform hooks</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                            <span>CI/CD pipeline connectivity</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Capabilities Section -->
+    <section id="ai" class="py-20 bg-gray-100">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Generative AI at Your Service</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    TeamFlow leverages cutting-edge AI to transform how your team works, making everyone more productive and happier.
+                </p>
+            </div>
+
+            <div class="flex flex-col lg:flex-row items-center">
+                <div class="lg:w-1/2 mb-10 lg:mb-0 lg:pr-10">
+                    <div class="bg-white p-6 rounded-lg shadow-lg ai-glow">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white mr-3">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <h3 class="text-xl font-bold">TeamFlow AI Assistant</h3>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="bg-indigo-600 text-white p-4 rounded-lg rounded-tl-none">
+                                <p>I've analyzed your team's capacity and the high-priority tasks. Here's what I found:</p>
+                                <ul class="list-disc list-inside mt-2 text-indigo-100">
+                                    <li>Your team's total capacity is 160 hours</li>
+                                    <li>The 10 high-priority tasks require 210 hours</li>
+                                    <li>3 team members are at risk of overallocation</li>
+                                    <li>2 tasks have external dependencies that might cause delays</li>
+                                </ul>
+                                <p class="mt-2">Would you like me to suggest an optimized sprint plan?</p>
+                            </div>
+                            <div class="bg-gray-100 p-4 rounded-lg rounded-tr-none ml-auto max-w-md">
+                                <p>Yes, please suggest an optimized sprint plan and identify which tasks we should prioritize.</p>
+                            </div>
+                            <div class="bg-indigo-600 text-white p-4 rounded-lg rounded-tl-none">
+                                <p>Based on my analysis, here's an optimized sprint plan that balances team capacity, priorities, and dependencies:</p>
+                                <div class="bg-indigo-700 p-3 rounded-lg mt-2">
+                                    <h4 class="font-medium">Recommended Sprint Plan (7 tasks, 158 hours)</h4>
+                                    <ul class="list-disc list-inside mt-1 text-indigo-100 text-sm">
+                                        <li>Implement Sentiment Analysis API (Alex, 16h)</li>
+                                        <li>Create Dashboard UI Components (Sarah, 24h)</li>
+                                        <li>Set Up CI/CD Pipeline (Maya, 20h)</li>
+                                        <li>Implement User Authentication (James, 30h)</li>
+                                        <li>Create API Documentation (James, 16h)</li>
+                                        <li>Optimize Database Queries (Alex, 24h)</li>
+                                        <li>Fix Critical Bugs (Sarah, 28h)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 grid grid-cols-3 gap-2">
+                            <div class="bg-indigo-50 border border-indigo-100 rounded-lg p-2 text-center cursor-pointer hover:bg-indigo-100">
+                                <p class="text-sm font-medium text-indigo-700">Generate capacity report</p>
+                            </div>
+                            <div class="bg-indigo-50 border border-indigo-100 rounded-lg p-2 text-center cursor-pointer hover:bg-indigo-100">
+                                <p class="text-sm font-medium text-indigo-700">Analyze dependencies</p>
+                            </div>
+                            <div class="bg-indigo-50 border border-indigo-100 rounded-lg p-2 text-center cursor-pointer hover:bg-indigo-100">
+                                <p class="text-sm font-medium text-indigo-700">Create sprint schedule</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:w-1/2">
+                    <h3 class="text-2xl font-bold mb-6">How Our AI Enhances Your Team</h3>
+                    <div class="space-y-6">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-600 text-white">
+                                    <i class="fas fa-magic"></i>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-medium text-gray-900">Predictive Task Completion</h4>
+                                <p class="mt-2 text-gray-600">
+                                    Our AI analyzes historical data, code complexity, and team velocity to predict accurate completion times for tasks, helping you plan more effectively.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-600 text-white">
+                                    <i class="fas fa-comments"></i>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-medium text-gray-900">Multi-Channel Sentiment Analysis</h4>
+                                <p class="mt-2 text-gray-600">
+                                    Our AI monitors team communication across platforms to detect early signs of burnout, frustration, or disengagement, helping you maintain team well-being.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-600 text-white">
+                                    <i class="fas fa-balance-scale"></i>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-medium text-gray-900">Intelligent Workload Optimization</h4>
+                                <p class="mt-2 text-gray-600">
+                                    Our AI balances team workload based on skills, capacity, and priorities, ensuring optimal resource allocation and preventing burnout.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-12 w-12 rounded-md bg-indigo-600 text-white">
+                                    <i class="fas fa-book"></i>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-medium text-gray-900">Automated Documentation</h4>
+                                <p class="mt-2 text-gray-600">
+                                    Our AI generates comprehensive documentation from your codebase, comments, and discussions, keeping your knowledge base up-to-date with minimal effort.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Section -->
+    <section id="comparison" class="py-20">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Why Choose TeamFlow Over JIRA</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    See how TeamFlow transforms team management compared to traditional tools like JIRA/Confluence.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <table class="w-full">
+                    <thead>
+                        <tr class="bg-gray-50">
+                            <th class="px-6 py-4 text-left text-gray-500 font-medium text-sm uppercase tracking-wider">Feature</th>
+                            <th class="px-6 py-4 text-center text-gray-500 font-medium text-sm uppercase tracking-wider">JIRA/Confluence</th>
+                            <th class="px-6 py-4 text-center text-indigo-600 font-medium text-sm uppercase tracking-wider">TeamFlow</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Task Status Updates</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500">
+                                <span class="text-yellow-500"><i class="fas fa-minus-circle"></i></span>
+                                <span class="ml-2">Manual updates</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-indigo-600">
+                                <span class="text-green-500"><i class="fas fa-check-circle"></i></span>
+                                <span class="ml-2">Automatic tracking</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">AI-Powered Insights</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500">
+                                <span class="text-red-500"><i class="fas fa-times-circle"></i></span>
+                                <span class="ml-2">Limited or none</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-indigo-600">
+                                <span class="text-green-500"><i class="fas fa-check-circle"></i></span>
+                                <span class="ml-2">Comprehensive</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Team Well-being Monitoring</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500">
+                                <span class="text-red-500"><i class="fas fa-times-circle"></i></span>
+                                <span class="ml-2">Not available</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-indigo-600">
+                                <span class="text-green-500"><i class="fas fa-check-circle"></i></span>
+                                <span class="ml-2">Built-in</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Workload Balancing</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500">
+                                <span class="text-yellow-500"><i class="fas fa-minus-circle"></i></span>
+                                <span class="ml-2">Basic</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-indigo-600">
+                                <span class="text-green-500"><i class="fas fa-check-circle"></i></span>
+                                <span class="ml-2">AI-optimized</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Conversational AI Assistant</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500">
+                                <span class="text-red-500"><i class="fas fa-times-circle"></i></span>
+                                <span class="ml-2">Not available</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-indigo-600">
+                                <span class="text-green-500"><i class="fas fa-check-circle"></i></span>
+                                <span class="ml-2">Full-featured</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">User Interface</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500">
+                                <span class="text-yellow-500"><i class="fas fa-minus-circle"></i></span>
+                                <span class="ml-2">Complex, cluttered</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-indigo-600">
+                                <span class="text-green-500"><i class="fas fa-check-circle"></i></span>
+                                <span class="ml-2">Clean, intuitive</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Setup & Configuration</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500">
+                                <span class="text-red-500"><i class="fas fa-times-circle"></i></span>
+                                <span class="ml-2">Complex, time-consuming</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-indigo-600">
+                                <span class="text-green-500"><i class="fas fa-check-circle"></i></span>
+                                <span class="ml-2">Simple, quick</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Predictive Analytics</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500">
+                                <span class="text-yellow-500"><i class="fas fa-minus-circle"></i></span>
+                                <span class="ml-2">Limited</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm text-indigo-600">
+                                <span class="text-green-500"><i class="fas fa-check-circle"></i></span>
+                                <span class="ml-2">Advanced</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-20 bg-gray-100">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">What Teams Are Saying</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Teams of all sizes are transforming how they work with TeamFlow.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="testimonial-card bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-center mb-4">
+                        <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Testimonial" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold">Sarah Chen</h4>
+                            <p class="text-gray-600 text-sm">Engineering Manager at TechCorp</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-4">
+                        "TeamFlow's AI assistant has transformed our sprint planning process. What used to take hours now takes minutes, and the plans are more balanced and realistic. The automatic task tracking means we spend less time updating statuses and more time building."
+                    </p>
+                    <div class="flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="testimonial-card bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-center mb-4">
+                        <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="Testimonial" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold">Michael Rodriguez</h4>
+                            <p class="text-gray-600 text-sm">CTO at StartupX</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-4">
+                        "After years of struggling with JIRA's complexity, TeamFlow is a breath of fresh air. The team pulse feature helped us identify and address burnout before it became a problem. Our team velocity has increased by 30% since switching."
+                    </p>
+                    <div class="flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="testimonial-card bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-center mb-4">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Testimonial" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold">Emily Johnson</h4>
+                            <p class="text-gray-600 text-sm">Product Manager at EnterpriseY</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-4">
+                        "The dynamic task progression feature is a game-changer. No more asking for updates or digging through PRs to see progress. TeamFlow shows us exactly where things stand in real-time, making my job as a PM so much easier."
+                    </p>
+                    <div class="flex text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="cta" class="py-20 cta-gradient">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold text-white mb-6">Ready to Transform Your Team?</h2>
+            <p class="text-xl text-indigo-100 max-w-3xl mx-auto mb-8">
+                Join thousands of teams that have already upgraded their workflow with TeamFlow's AI-powered platform.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <a href="#" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-white hover:bg-indigo-50">
+                    Start Free Trial
+                </a>
+                <a href="#" class="inline-flex items-center justify-center px-6 py-3 border border-white text-base font-medium rounded-md text-white hover:bg-indigo-700">
+                    Schedule Demo
+                </a>
+            </div>
+            <div class="mt-10 text-indigo-100">
+                <p>No credit card required. 14-day free trial.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="h-8 w-8 rounded bg-indigo-600 flex items-center justify-center text-white font-bold text-lg mr-2">TF</div>
+                        <h3 class="text-xl font-bold">TeamFlow</h3>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        Next-generation team management platform powered by AI.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Product</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Features</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Pricing</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Integrations</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Roadmap</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Resources</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Documentation</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Blog</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Community</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Support</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Careers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 TeamFlow. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
